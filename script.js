@@ -313,61 +313,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
   const userToken = await getUserIdToken();
   console.log(userToken);
   const templateName = element.textContent;
-
-  let requestData = {
-    productName: myProductName,
-    targetAudience: myTargetAudience,
-    highlights: myHighlights,
-    toneofSpeaking: myToneofSpeaking,
-    outputLanguage: myOutputLanguage,
-    campaignTarget: myCampaignTarget,
-    templateName: templateName,
-    recipient_name: my_recipient_name,
-    company_name: my_company_name,
-    recipient_team: my_recipient_team,
-    contact_source: my_contact_source,
-    sender_company: my_sender_company,
-    sender_company_desc: my_sender_company_desc,
-    sender_promoted_product: my_sender_promoted_product,
-    product_desc: my_product_desc,
-    available_calendar: my_available_calendar,
-    potential_pain_recipient: my_potential_pain_recipient,
-    sender_product_name: my_sender_product_name,
-    sender_product_feat: my_sender_product_feat,
-    recipient_company_name: my_recipient_company_name,
-    recipient_pain_point: my_recipient_pain_point,
-    recipient_competitor: my_recipient_competitor,
-    product_offering: my_product_offering,
-    sender_product_performance: my_sender_product_performance,
-    product_benefits: my_product_benefits,
-    product_name: my_product_name,
-    stakeholder_names: my_stakeholder_names,
-    short_description: my_short_description,
-    contributors: my_contributors,
-    call_to_action_links: my_call_to_action_links,
-    event_name: my_event_name,
-    event_time: my_event_time,
-    event_place: my_event_place,
-    event_type: my_event_type,
-    position_of_hire: my_position_of_hire,
-    name_of_hire: my_name_of_hire,
-    hire_background_info: my_hire_background_info,
-    brief_desc: my_brief_desc,
-    company_website: my_company_website,
-    company_industry: my_company_industry,
-    quotes: my_quotes,
-    contact: my_contact,
-    rewritePrompt: rewritePrompt,
-    UUID: myUuid,
-    userToken: userToken,
-  };
-
-  Object.keys(requestData).forEach(key => {
-    if (requestData[key] === null || requestData[key] === undefined) {
-      delete requestData[key];
-    }
-  });
-
   var response = await fetch(
     "https://stuntai-api.onrender.com/api/v1/stream_chat/",
     {
@@ -375,7 +320,53 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(requestData),
+      body: JSON.stringify({
+        productName: myProductName,
+        targetAudience: myTargetAudience,
+        highlights: myHighlights,
+        toneofSpeaking: myToneofSpeaking,
+        outputLanguage: myOutputLanguage,
+        campaignTarget: myCampaignTarget,
+        templateName: templateName,
+        recipient_name: my_recipient_name,
+        company_name: my_company_name,
+        recipient_team: my_recipient_team,
+        contact_source: my_contact_source,
+        sender_company: my_sender_company,
+        sender_company_desc: my_sender_company_desc,
+        sender_promoted_product: my_sender_promoted_product,
+        product_desc: my_product_desc,
+        available_calendar: my_available_calendar,
+        potential_pain_recipient: my_potential_pain_recipient,
+        sender_product_name: my_sender_product_name,
+        sender_product_feat: my_sender_product_feat,
+        recipient_company_name: my_recipient_company_name,
+        recipient_pain_point: my_recipient_pain_point,
+        recipient_competitor: my_recipient_competitor,
+        product_offering: my_product_offering,
+        sender_product_performance: my_sender_product_performance,
+        product_benefits: my_product_benefits,
+        product_name: my_product_name,
+        stakeholder_names: my_stakeholder_names,
+        short_description: my_short_description,
+        contributors: my_contributors,
+        call_to_action_links: my_call_to_action_links,
+        event_name: my_event_name,
+        event_time: my_event_time,
+        event_place: my_event_place,
+        event_type: my_event_type,
+        position_of_hire: my_position_of_hire,
+        name_of_hire: my_name_of_hire,
+        hire_background_info: my_hire_background_info,
+        brief_desc: my_brief_desc,
+        company_website: my_company_website,
+        company_industry: my_company_industry,
+        quotes: my_quotes,
+        contact: my_contact,
+        rewritePrompt: rewritePrompt,
+        UUID: myUuid,
+        userToken: userToken,
+      }),
     }
   );
 
@@ -392,9 +383,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
     let myTextBoxClass = `myOutputText${uids.length + 1}`;
 
     if (isNew) {
-      document.getElementById(`myOutputText1`).innerHTML = null;
-      document.getElementById(`myOutputText2`).innerHTML = null;
-      document.getElementById(`myOutputText3`).innerHTML = null;
+      document.getElementById(`myOutputText1`).innerHTML = "";
+      document.getElementById(`myOutputText2`).innerHTML = "";
+      document.getElementById(`myOutputText3`).innerHTML = "";
       isNew = false;
     }
     let token = decoder.decode(result.value);
@@ -408,7 +399,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
       endTokenReached = true;
     }
     console.log("ahjakjshd: " + myTextBoxClass);
-    document.getElementById(myTextBoxClass).innerHTML += token + null;
+    document.getElementById(myTextBoxClass).innerHTML += token + "";
 
     endTokenReached = false;
 
@@ -538,7 +529,7 @@ parentElement.addEventListener("click", function (event) {
 
   if (matchedElement4) {
     sendMessage(document.querySelector("#rewriteText").value, window.uids[0]);
-    document.querySelector("#myOutputText1").innerHTML = null;
+    document.querySelector("#myOutputText1").innerHTML = "";
     document.querySelector("#output2").style.display = "none";
     document.querySelector("#output3").style.display = "none";
   }
