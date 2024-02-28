@@ -167,76 +167,51 @@ function updateUserElement(elementId, value) {
 }
 
 async function sendMessage(rewritePrompt = "", myUuid = "") {
-  const myProductName = document.getElementById("product_name").value;
-  const myTargetAudience = document.getElementById("target_audience").value;
-  const myHighlights = document.getElementById("highlights").value;
-  const myToneofSpeaking = document.getElementById("tone_of_speaking").value;
-  const myCampaignTarget = document.getElementById("campaing_target").value;
   const myOutputLanguage =
-    document.getElementById("language").options[
-      document.getElementById("language").selectedIndex
-    ].textContent;
+  document.getElementById("language").options[
+    document.getElementById("language").selectedIndex
+  ].textContent;
 
-  const my_recipient_name = document.getElementById("recipient_name").value;
-  const my_company_name = document.getElementById("company_name").value;
-  const my_recipient_team = document.getElementById("recipient_team").value;
-  const my_contact_source = document.getElementById("contact_source").value;
-  const my_sender_company = document.getElementById("sender_company").value;
-  const my_sender_company_desc = document.getElementById(
-    "sender_company_desc"
-  ).value;
-  const my_sender_promoted_product = document.getElementById(
-    "sender_promoted_product"
-  ).value;
-  const my_product_desc = document.getElementById("product_desc").value;
-  const my_available_calendar =
-    document.getElementById("available_calendar").value;
-  const my_potential_pain_recipient = document.getElementById(
-    "potential_pain_recipient"
-  ).value;
-  const my_sender_product_name = document.getElementById(
-    "sender_product_name"
-  ).value;
-  const my_sender_product_feat = document.getElementById(
-    "sender_product_feat"
-  ).value;
-  const my_recipient_company_name = document.getElementById(
-    "recipient_company_name"
-  ).value;
-  const my_recipient_pain_point = document.getElementById(
-    "recipient_pain_point"
-  ).value;
-  const my_recipient_competitor = document.getElementById(
-    "recipient_competitor"
-  ).value;
-  const my_product_offering = document.getElementById("product_offering").value;
-  const my_sender_product_performance = document.getElementById(
-    "sender_product_performance"
-  ).value;
-  const my_product_benefits = document.getElementById("product_benefits").value;
-  const my_product_name = document.getElementById("product_name").value;
-  const my_stakeholder_names =
-    document.getElementById("stakeholder_names").value;
-  const my_short_description =
-    document.getElementById("short_description").value;
-  const my_contributors = document.getElementById("contributors").value;
-  const my_call_to_action_links = document.getElementById(
-    "call_to_action_links"
-  ).value;
-  const my_event_name = document.getElementById("event_name").value;
-  const my_event_time = document.getElementById("event_time").value;
-  const my_event_place = document.getElementById("event_place").value;
-  const my_event_type = document.getElementById("event_type").value;
-  const my_position_of_hire = document.getElementById("position_of_hire").value;
-  const my_name_of_hire = document.getElementById("name_of_hire").value;
-  const my_hire_background_info = document.getElementById(
-    "hire_background_info"
-  ).value;
-  const my_brief_desc = document.getElementById("brief_desc").value;
-  const my_company_website = document.getElementById("company_website").value;
-  const my_company_industry = document.getElementById("company_industry").value;
-  const my_quotes = document.getElementById("quotes").value;
-  const my_contact = document.getElementById("contact").value;
+  const myProductName = document.getElementById("product_name") ? document.getElementById("product_name").value : null;
+  const myTargetAudience = document.getElementById("target_audience") ? document.getElementById("target_audience").value : null;
+  const myHighlights = document.getElementById("highlights") ? document.getElementById("highlights").value : null;
+  const myToneofSpeaking = document.getElementById("tone_of_speaking") ? document.getElementById("tone_of_speaking").value : null;
+  const myCampaignTarget = document.getElementById("campaing_target") ? document.getElementById("campaing_target").value : null;
+  const my_recipient_name = document.getElementById("recipient_name") ? document.getElementById("recipient_name").value : null;
+  const my_company_name = document.getElementById("company_name") ? document.getElementById("company_name").value : null;
+  const my_recipient_team = document.getElementById("recipient_team") ? document.getElementById("recipient_team").value : ""
+  const my_contact_source = document.getElementById("contact_source") ? document.getElementById("contact_source").value : null;
+  const my_sender_company = document.getElementById("sender_company") ? document.getElementById("sender_company").value : null;
+  const my_sender_company_desc = document.getElementById("sender_company_desc") ? document.getElementById("sender_company_desc").value : null;
+  const my_sender_promoted_product = document.getElementById("sender_promoted_product") ? document.getElementById("sender_promoted_product").value : null;
+  const my_product_desc = document.getElementById("product_desc") ? document.getElementById("product_desc").value : null;
+  const my_available_calendar = document.getElementById("available_calendar") ? document.getElementById("available_calendar").value : null;
+  const my_potential_pain_recipient = document.getElementById("potential_pain_recipient") ? document.getElementById("potential_pain_recipient").value : null;
+  const my_sender_product_name = document.getElementById("sender_product_name") ? document.getElementById("sender_product_name").value : null;
+  const my_sender_product_feat = document.getElementById("sender_product_feat") ? document.getElementById("sender_product_feat").value : null;
+  const my_recipient_company_name = document.getElementById("recipient_company_name") ? document.getElementById("recipient_company_name").value : null;
+  const my_recipient_pain_point = document.getElementById("recipient_pain_point") ? document.getElementById("recipient_pain_point").value : null;
+  const my_recipient_competitor = document.getElementById("recipient_competitor") ? document.getElementById("recipient_competitor").value : null;
+  const my_product_offering = document.getElementById("product_offering") ? document.getElementById("product_offering").value : null;
+  const my_sender_product_performance = document.getElementById("sender_product_performance") ? document.getElementById("sender_product_performance").value : null;
+  const my_product_benefits = document.getElementById("product_benefits") ? document.getElementById("product_benefits").value : null;
+  const my_product_name = document.getElementById("product_name") ? document.getElementById("product_name").value : null;
+  const my_stakeholder_names = document.getElementById("stakeholder_names") ? document.getElementById("stakeholder_names").value : null;
+  const my_short_description = document.getElementById("short_description") ? document.getElementById("short_description").value : null;
+  const my_contributors = document.getElementById("contributors") ? document.getElementById("contributors").value : null;
+  const my_call_to_action_links = document.getElementById("call_to_action_links") ? document.getElementById("target_audicall_to_action_linksence").value : null;
+  const my_event_name = document.getElementById("event_name") ? document.getElementById("event_name").value : null;
+  const my_event_time = document.getElementById("event_time") ? document.getElementById("event_time").value : null;
+  const my_event_place = document.getElementById("event_place") ? document.getElementById("event_place").value : null;
+  const my_event_type = document.getElementById("event_type") ? document.getElementById("event_type").value : null;
+  const my_position_of_hire = document.getElementById("position_of_hire") ? document.getElementById("position_of_hire").value : null;
+  const my_name_of_hire = document.getElementById("name_of_hire") ? document.getElementById("name_of_hire").value : null;
+  const my_hire_background_info = document.getElementById("hire_background_info") ? document.getElementById("hire_background_info").value : null;
+  const my_brief_desc = document.getElementById("brief_desc") ? document.getElementById("brief_desc").value : null;
+  const my_company_website = document.getElementById("company_website") ? document.getElementById("company_website").value : null;
+  const my_company_industry = document.getElementById("company_industry") ? document.getElementById("company_industry").value : null;
+  const my_quotes = document.getElementById("quotes") ? document.getElementById("quotes").value : null;
+  const my_contact = document.getElementById("contact") ? document.getElementById("contact").value : null;
 
   const element = document.querySelector(".text-516");
   const userToken = await getUserIdToken();
@@ -312,9 +287,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
     let myTextBoxClass = `myOutputText${uids.length + 1}`;
 
     if (isNew) {
-      document.getElementById(`myOutputText1`).innerHTML = "";
-      document.getElementById(`myOutputText2`).innerHTML = "";
-      document.getElementById(`myOutputText3`).innerHTML = "";
+      document.getElementById(`myOutputText1`).innerHTML = null;
+      document.getElementById(`myOutputText2`).innerHTML = null;
+      document.getElementById(`myOutputText3`).innerHTML = null;
       isNew = false;
     }
     let token = decoder.decode(result.value);
@@ -328,7 +303,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
       endTokenReached = true;
     }
     console.log("ahjakjshd: " + myTextBoxClass);
-    document.getElementById(myTextBoxClass).innerHTML += token + "";
+    document.getElementById(myTextBoxClass).innerHTML += token + null;
 
     endTokenReached = false;
 
@@ -458,7 +433,7 @@ parentElement.addEventListener("click", function (event) {
 
   if (matchedElement4) {
     sendMessage(document.querySelector("#rewriteText").value, window.uids[0]);
-    document.querySelector("#myOutputText1").innerHTML = "";
+    document.querySelector("#myOutputText1").innerHTML = null;
     document.querySelector("#output2").style.display = "none";
     document.querySelector("#output3").style.display = "none";
   }
