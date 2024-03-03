@@ -756,45 +756,66 @@ async function fetchDataAndCreateChart() {
   const x = await myGlobalUser.getIdToken();
 
   // Fetch data from the API
-  
-  const response = await fetch(`https://stuntai-api.onrender.com/api/v1/usage/daily/${x}`);
-  const data = await response.json();
+
+  const response = await fetch(
+    `https://stuntai-api.onrender.com/api/v1/usage/daily/${x}`
+  );
+  const apiData = await response.json();
+
+  let monthly_hak = 10000;
+  const targetDiv = document.getElementById("chart"); // Use your target div's ID
+
+  // I want total sum of all data total_response_length
+  const totalWords = data.reduce(
+    (acc, item) => acc + item.total_response_length,
+    0
+  );
+  const data = apiData.slice(-5);
+
+  //I want to append a child <p> that has totalWords
+  const p = document.createElement("p");
+  const p2 = document.createElement("p");
+  p.innerHTML = `Total Words: ${totalWords}`;
+  p2.innerHTML = `Monthly Allowed: ${monthly_hak}`;
+  targetDiv.appendChild(p);
+  targetDiv.appendChild(p2);
 
   // Process data to fit charting requirements
-  const labels = data.map(item => item.last_update_day);
-  const values = data.map(item => item.total_response_length);
+  const labels = data.map((item) => item.last_update_day);
+  const values = data.map((item) => item.total_response_length);
 
   // Create canvas element
-  const canvas = document.createElement('canvas');
-  canvas.id = 'myChart';
+  const canvas = document.createElement("canvas");
+  canvas.id = "myChart";
   canvas.width = 400;
   canvas.height = 400;
 
   // Append canvas to a specific div
-  const targetDiv = document.getElementById('chart'); // Use your target div's ID
   targetDiv.appendChild(canvas);
 
   // Initialize the chart
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   const myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: labels,
-          datasets: [{
-              label: 'Total Response Length',
-              data: values,
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1
-          }]
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Generated Words",
+          data: values,
+          backgroundColor: "rgba(234, 237, 250, 20)",
+          borderColor: "rgba(234, 237, 250, 20)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
       },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
-      }
+    },
   });
 }
 
