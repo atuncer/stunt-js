@@ -907,6 +907,7 @@ async function fetchDataAndCreateChart() {
   });
 }
 async function fillRecents() {
+  const x = await myGlobalUser.getIdToken();
   const response = await fetch(
     `https://stuntai-api.onrender.com/api/v1/favourites/${x}`
   );
