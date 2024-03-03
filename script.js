@@ -771,7 +771,7 @@ async function fetchDataAndCreateChart() {
   canvas.height = 400;
 
   // Append canvas to a specific div
-  const targetDiv = document.getElementById('targetDivId'); // Use your target div's ID
+  const targetDiv = document.getElementById('chart'); // Use your target div's ID
   targetDiv.appendChild(canvas);
 
   // Initialize the chart
