@@ -764,16 +764,16 @@ async function fetchDataAndCreateChart() {
     `https://stuntai-api.onrender.com/api/v1/usage/daily/${x}`
   );
   const apiData = await response.json();
+  const data = apiData.slice(-5);
 
   let monthly_hak = 10000;
   const targetDiv = document.getElementById("chart"); // Use your target div's ID
 
   // I want total sum of all data total_response_length
-  const totalWords = data.reduce(
+  const totalWords = apiData.reduce(
     (acc, item) => acc + item.total_response_length,
     0
   );
-  const data = apiData.slice(-5);
 
   //I want to append a child <p> that has totalWords
   const p = document.createElement("p");

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!---
+    pls add a div that has an id "chart" and has 800x800 size-->
+    <div id="chart" style="width: 800px; height: 400px;">
+    <h1>hello world</h1>
+    <p>lorem ipsum</p>
+    </div>
+    <script>
+        let data = [
+            {
+                "last_update_day": "21 Feb",
+                "total_response_length": 367
+            },
+            {
+                "last_update_day": "22 Feb",
+                "total_response_length": 800
+            },
+            {
+                "last_update_day": "23 Feb",
+                "total_response_length": 1500
+            },
+            {
+                "last_update_day": "24 Feb",
+                "total_response_length": 900
+            },
+            {
+                "last_update_day": "25 Feb",
+                "total_response_length": 300
+            }
+        ]
+        
+        let monthly_hak = 10000;
+        const targetDiv = document.getElementById('chart'); // Use your target div's ID
+
+
+        // I want total sum of all data total_response_length
+        const totalWords = data.reduce((acc, item) => acc + item.total_response_length, 0);
+        data = data.slice(-5);
+        
+        //I want to append a child <p> that has totalWords 
+        const p = document.createElement('p');
+        const p2 = document.createElement('p');
+        p.innerHTML = `Total Words: ${totalWords}`;
+        p2.innerHTML = `Monthly Allowed: ${monthly_hak}`;
+        targetDiv.appendChild(p);
+        targetDiv.appendChild(p2);
+
+        // Process data to fit charting requirements
+        const labels = data.map(item => item.last_update_day);
+        const values = data.map(item => item.total_response_length);
+
+        // Create canvas element
+        const canvas = document.createElement('canvas');
+        canvas.id = 'myChart';
+        canvas.width = 400;
+        canvas.height = 400;
+
+        // Append canvas to a specific div
+        targetDiv.appendChild(canvas);
+
+        // Initialize the chart
+        const ctx = canvas.getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Generated Words',
+                    data: values,
+                    backgroundColor: 'rgba(234, 237, 250, 20)',
+                    borderColor: 'rgba(234, 237, 250, 20)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
