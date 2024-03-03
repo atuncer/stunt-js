@@ -798,6 +798,6 @@ async function fetchDataAndCreateChart() {
   });
 }
 
-if (window.location.href.includes("my-dashboard") && user) {
+if (window.location.href.includes("my-dashboard") && myGlobalUser != null) {
   fetchDataAndCreateChart();
 }
