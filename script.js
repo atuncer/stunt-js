@@ -268,7 +268,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
   const my_call_to_action_links = document.getElementById(
     "call_to_action_links"
   )
-    ? document.getElementById("target_audicall_to_action_linksence").value
+    ? document.getElementById("target_audicall_to_action_links").value
     : null;
   const my_event_name = document.getElementById("event_name")
     ? document.getElementById("event_name").value
@@ -312,7 +312,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
   const element = document.querySelector(".text-516");
   const userToken = await getUserIdToken();
   console.log(userToken);
-  const templateName = element.textContent;
+  const templateName = element.textContent.toLowerCase();
 
   let requestData = {
     productName: myProductName,
