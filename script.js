@@ -118,6 +118,7 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userMail", user.email);
     if (window.location.href.includes("my-dashboard") && myGlobalUser != null) {
       fetchDataAndCreateChart();
+      fillRecents();
     }
   }
 
@@ -822,7 +823,99 @@ async function fetchDataAndCreateChart() {
 }
 
 function convertDate(dateString) {
-  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
   const dateParts = dateString.split("-");
   return `${dateParts[2]} ${months[parseInt(dateParts[1], 10) - 1]}`;
+}
+
+async function fetchDataAndCreateChart() {
+  // Obtain the ID token
+  const x = await myGlobalUser.getIdToken();
+
+  // Fetch data from the API
+
+  const response = await fetch(
+    `https://stuntai-api.onrender.com/api/v1/favourites/${x}`
+  );
+  const apiData = await response.json();
+
+  let monthly_hak = 10000;
+  const targetDiv = document.getElementById("chart"); // Use your target div's ID
+
+  // I want total sum of all data total_response_length
+  const totalWords = apiData.reduce(
+    (acc, item) => acc + item.total_response_length,
+    0
+  );
+
+  //I want to append a child <p> that has totalWords
+  const p = document.createElement("p");
+  const p2 = document.createElement("p");
+  p.innerHTML = `Total Words: ${totalWords}`;
+  p2.innerHTML = `Monthly Allowed: ${monthly_hak}`;
+  targetDiv.appendChild(p);
+  targetDiv.appendChild(p2);
+
+  const labels = data.map((item) => convertDate(item.last_update_day));
+  const values = data.map((item) => item.total_response_length);
+
+  // Create canvas element
+  const canvas = document.createElement("canvas");
+  canvas.id = "myChart";
+  canvas.width = 400;
+  canvas.height = 400;
+
+  // Append canvas to a specific div
+  targetDiv.appendChild(canvas);
+
+  // Initialize the chart
+  const ctx = canvas.getContext("2d");
+  const myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Generated Words",
+          data: values,
+          backgroundColor: "rgba(234, 237, 250, 20)",
+          borderColor: "rgba(234, 237, 250, 20)",
+          borderWidth: 1,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+async function fillRecents() {
+  const response = await fetch(
+    `https://stuntai-api.onrender.com/api/v1/favourites/${x}`
+  );
+
+  const apiData = await response.json();
+
+  const elements = apiData.map((item) =>
+    document.querySelector(`#${item.template}`)
+  );
+
+  document.querySelector("#recents").replaceChildren(...elements);
 }
