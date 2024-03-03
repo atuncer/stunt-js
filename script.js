@@ -750,3 +750,54 @@ window.showToast = function (text) {
     }, 500);
   }, 3000);
 };
+
+async function fetchDataAndCreateChart() {
+  // Obtain the ID token
+  const x = await myGlobalUser.getIdToken();
+
+  // Fetch data from the API
+  
+  const response = await fetch(`https://stuntai-api.onrender.com/api/v1/usage/daily/${x}`);
+  const data = await response.json();
+
+  // Process data to fit charting requirements
+  const labels = data.map(item => item.last_update_day);
+  const values = data.map(item => item.total_response_length);
+
+  // Create canvas element
+  const canvas = document.createElement('canvas');
+  canvas.id = 'myChart';
+  canvas.width = 400;
+  canvas.height = 400;
+
+  // Append canvas to a specific div
+  const targetDiv = document.getElementById('targetDivId'); // Use your target div's ID
+  targetDiv.appendChild(canvas);
+
+  // Initialize the chart
+  const ctx = canvas.getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: labels,
+          datasets: [{
+              label: 'Total Response Length',
+              data: values,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+}
+
+if (window.location.href.includes("my-dashboard") && user) {
+  fetchDataAndCreateChart();
+}
