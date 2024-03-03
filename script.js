@@ -783,8 +783,7 @@ async function fetchDataAndCreateChart() {
   targetDiv.appendChild(p);
   targetDiv.appendChild(p2);
 
-  // Process data to fit charting requirements
-  const labels = data.map((item) => item.last_update_day);
+  const labels = data.map((item) => convertDate(item.last_update_day));
   const values = data.map((item) => item.total_response_length);
 
   // Create canvas element
@@ -820,4 +819,10 @@ async function fetchDataAndCreateChart() {
       },
     },
   });
+}
+
+function convertDate(dateString) {
+  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const dateParts = dateString.split("-");
+  return `${dateParts[2]} ${months[parseInt(dateParts[1], 10) - 1]}`;
 }
