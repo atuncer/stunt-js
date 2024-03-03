@@ -840,5 +840,9 @@ async function fillRecents() {
     document.querySelector(`#${item.template}`)
   );
 
+  elements.forEach((element) => {
+    element.style.display = "inline-block";
+  });
+
   document.querySelector("#recents").replaceChildren(...elements);
 }
