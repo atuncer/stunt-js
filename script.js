@@ -116,6 +116,9 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userName", user.displayName);
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
+    if (window.location.href.includes("my-dashboard") && myGlobalUser != null) {
+      fetchDataAndCreateChart();
+    }
   }
 
   if (
@@ -802,7 +805,4 @@ async function fetchDataAndCreateChart() {
   });
 }
 
-if (window.location.href.includes("my-dashboard") && myGlobalUser != null) {
-  fetchDataAndCreateChart();
-}
 //aa
