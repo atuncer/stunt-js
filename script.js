@@ -777,11 +777,11 @@ async function fetchDataAndCreateChart() {
   );
 
   const totalWord = document.querySelector("#total_word")
-  totalWord.innerHTML = totalWords;
+  totalWord.innerHTML += `${totalWords}`;
   totalWord.style.display = "block";
 
   const usedWord = document.querySelector("#used_word")
-  usedWord.innerHTML = monthly_hak;
+  usedWord.innerHTML += `${monthly_hak}`;
   usedWord.style.display = "block";
 
 
