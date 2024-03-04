@@ -776,13 +776,15 @@ async function fetchDataAndCreateChart() {
     0
   );
 
-  //I want to append a child <p> that has totalWords
-  const p = document.createElement("p");
-  const p2 = document.createElement("p");
-  p.innerHTML = `Total Words: ${totalWords}`;
-  p2.innerHTML = `Monthly Allowed: ${monthly_hak}`;
-  targetDiv.appendChild(p);
-  targetDiv.appendChild(p2);
+  const totalWord = document.querySelector("#total_word")
+  totalWord.innerHTML = totalWords;
+  totalWord.style.display = "block";
+
+  const usedWord = document.querySelector("#used_word")
+  usedWord.innerHTML = monthly_hak;
+  usedWord.style.display = "block";
+
+
 
   const labels = data.map((item) => convertDate(item.last_update_day));
   const values = data.map((item) => item.total_response_length);
