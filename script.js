@@ -56,6 +56,15 @@ function handleSignUp(e) {
       const user = userCredential.user;
       console.log("User successfully created: " + user.email);
 
+      // Send email verification
+      user.sendEmailVerification().then(function() {
+        // Email sent.
+        console.log("Email verification sent to: " + user.email);
+      }).catch(function(error) {
+        // An error happened.
+        console.error("Error sending email verification:", error);
+      });
+
       return user.updateProfile({
         displayName: user_name,
       });
@@ -70,7 +79,6 @@ function handleSignUp(e) {
       errorText.innerHTML = errorMessage;
     });
 }
-
 function handleSignIn(e) {
   e.preventDefault();
   e.stopPropagation();
