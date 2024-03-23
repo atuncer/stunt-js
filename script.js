@@ -124,10 +124,10 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userName", user.displayName);
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
-    if (window.location.href.includes("my-dashboard") && myGlobalUser != null) {
-      fetchDataAndCreateChart();
-      fillRecents();
-    }
+if ((window.location.href.includes("my-dashboard") || window.location.href.includes("manage-your-account")) && myGlobalUser != null) {
+    fetchDataAndCreateChart();
+    fillRecents();
+}
   }
 
   if (
