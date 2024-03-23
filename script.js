@@ -6,7 +6,7 @@ if (
   elementToRemove.remove();
 }
 
-const API_URL = "https://stuntai.co";
+const API_URL = "https://app.stuntai.co";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
