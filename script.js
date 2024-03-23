@@ -6,6 +6,8 @@ if (
   elementToRemove.remove();
 }
 
+const API_URL = "https://stuntai.co";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
   authDomain: "stuntai-74414.firebaseapp.com",
@@ -57,13 +59,16 @@ function handleSignUp(e) {
       console.log("User successfully created: " + user.email);
 
       // Send email verification
-      user.sendEmailVerification().then(function() {
-        // Email sent.
-        console.log("Email verification sent to: " + user.email);
-      }).catch(function(error) {
-        // An error happened.
-        console.error("Error sending email verification:", error);
-      });
+      user
+        .sendEmailVerification()
+        .then(function () {
+          // Email sent.
+          console.log("Email verification sent to: " + user.email);
+        })
+        .catch(function (error) {
+          // An error happened.
+          console.error("Error sending email verification:", error);
+        });
 
       return user.updateProfile({
         displayName: user_name,
@@ -124,10 +129,14 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userName", user.displayName);
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
-if ((window.location.href.includes("my-dashboard") || window.location.href.includes("manage-your-account")) && myGlobalUser != null) {
-    fetchDataAndCreateChart();
-    fillRecents();
-}
+    if (
+      (window.location.href.includes("my-dashboard") ||
+        window.location.href.includes("manage-your-account")) &&
+      myGlobalUser != null
+    ) {
+      fetchDataAndCreateChart();
+      fillRecents();
+    }
   }
 
   if (
@@ -326,62 +335,59 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
   console.log(userToken);
   const templateName = element.textContent.toLowerCase();
 
-  var response = await fetch(
-    "https://stuntai-api.onrender.com/api/v1/stream_chat/",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        productName: myProductName,
-        targetAudience: myTargetAudience,
-        highlights: myHighlights,
-        toneofSpeaking: myToneofSpeaking,
-        outputLanguage: myOutputLanguage,
-        campaignTarget: myCampaignTarget,
-        templateName: templateName,
-        recipient_name: my_recipient_name,
-        company_name: my_company_name,
-        recipient_team: my_recipient_team,
-        contact_source: my_contact_source,
-        sender_company: my_sender_company,
-        sender_company_desc: my_sender_company_desc,
-        sender_promoted_product: my_sender_promoted_product,
-        product_desc: my_product_desc,
-        available_calendar: my_available_calendar,
-        potential_pain_recipient: my_potential_pain_recipient,
-        sender_product_name: my_sender_product_name,
-        sender_product_feat: my_sender_product_feat,
-        recipient_company_name: my_recipient_company_name,
-        recipient_pain_point: my_recipient_pain_point,
-        recipient_competitor: my_recipient_competitor,
-        product_offering: my_product_offering,
-        sender_product_performance: my_sender_product_performance,
-        product_benefits: my_product_benefits,
-        product_name: my_product_name,
-        stakeholder_names: my_stakeholder_names,
-        short_description: my_short_description,
-        contributors: my_contributors,
-        call_to_action_links: my_call_to_action_links,
-        event_name: my_event_name,
-        event_time: my_event_time,
-        event_place: my_event_place,
-        event_type: my_event_type,
-        position_of_hire: my_position_of_hire,
-        name_of_hire: my_name_of_hire,
-        hire_background_info: my_hire_background_info,
-        brief_desc: my_brief_desc,
-        company_website: my_company_website,
-        company_industry: my_company_industry,
-        quotes: my_quotes,
-        contact: my_contact,
-        rewritePrompt: rewritePrompt,
-        UUID: myUuid,
-        userToken: userToken,
-      }),
-    }
-  );
+  var response = await fetch(`${API_URL}/api/v1/stream_chat/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      productName: myProductName,
+      targetAudience: myTargetAudience,
+      highlights: myHighlights,
+      toneofSpeaking: myToneofSpeaking,
+      outputLanguage: myOutputLanguage,
+      campaignTarget: myCampaignTarget,
+      templateName: templateName,
+      recipient_name: my_recipient_name,
+      company_name: my_company_name,
+      recipient_team: my_recipient_team,
+      contact_source: my_contact_source,
+      sender_company: my_sender_company,
+      sender_company_desc: my_sender_company_desc,
+      sender_promoted_product: my_sender_promoted_product,
+      product_desc: my_product_desc,
+      available_calendar: my_available_calendar,
+      potential_pain_recipient: my_potential_pain_recipient,
+      sender_product_name: my_sender_product_name,
+      sender_product_feat: my_sender_product_feat,
+      recipient_company_name: my_recipient_company_name,
+      recipient_pain_point: my_recipient_pain_point,
+      recipient_competitor: my_recipient_competitor,
+      product_offering: my_product_offering,
+      sender_product_performance: my_sender_product_performance,
+      product_benefits: my_product_benefits,
+      product_name: my_product_name,
+      stakeholder_names: my_stakeholder_names,
+      short_description: my_short_description,
+      contributors: my_contributors,
+      call_to_action_links: my_call_to_action_links,
+      event_name: my_event_name,
+      event_time: my_event_time,
+      event_place: my_event_place,
+      event_type: my_event_type,
+      position_of_hire: my_position_of_hire,
+      name_of_hire: my_name_of_hire,
+      hire_background_info: my_hire_background_info,
+      brief_desc: my_brief_desc,
+      company_website: my_company_website,
+      company_industry: my_company_industry,
+      quotes: my_quotes,
+      contact: my_contact,
+      rewritePrompt: rewritePrompt,
+      UUID: myUuid,
+      userToken: userToken,
+    }),
+  });
 
   var reader = response.body.getReader();
   var decoder = new TextDecoder("utf-8");
@@ -501,7 +507,7 @@ parentElement.addEventListener("click", function (event) {
     const num = matchedElement2.id.match(/\d+$/)[0];
     const uid = window.uids[num];
 
-    const apiUrl = `https://stuntai-api.onrender.com/api/v1/like/uuid=${uid}&isliked=1`;
+    const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=1`;
 
     fetch(apiUrl, {
       method: "GET",
@@ -524,7 +530,7 @@ parentElement.addEventListener("click", function (event) {
     const num = matchedElement3.id.match(/\d+$/)[0];
     const uid = window.uids[num];
 
-    const apiUrl = `https://stuntai-api.onrender.com/api/v1/like/uuid=${uid}&isliked=0`;
+    const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=0`;
 
     fetch(apiUrl, {
       method: "GET",
@@ -612,15 +618,12 @@ parentElement.addEventListener("click", function (event) {
 
 window.fetchData = async function (user) {
   const token = await user.getIdToken();
-  const apiResponse = await fetch(
-    `https://stuntai-api.onrender.com/api/v1/recents/${token}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
+  const apiResponse = await fetch(`${API_URL}/api/v1/recents/${token}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   const response = await apiResponse.json();
   console.log(response);
 
@@ -769,9 +772,7 @@ async function fetchDataAndCreateChart() {
 
   // Fetch data from the API
 
-  const response = await fetch(
-    `https://stuntai-api.onrender.com/api/v1/usage/daily/${x}`
-  );
+  const response = await fetch(`${API_URL}/api/v1/usage/daily/${x}`);
   const apiData = await response.json();
   const data = apiData.slice(-5);
 
@@ -784,15 +785,13 @@ async function fetchDataAndCreateChart() {
     0
   );
 
-  const totalWord = document.querySelector("#total_word")
+  const totalWord = document.querySelector("#total_word");
   totalWord.innerHTML += `${totalWords}`;
   totalWord.style.display = "block";
 
-  const usedWord = document.querySelector("#used_word")
+  const usedWord = document.querySelector("#used_word");
   usedWord.innerHTML += `${monthly_hak}`;
   usedWord.style.display = "block";
-
-
 
   const labels = data.map((item) => convertDate(item.last_update_day));
   const values = data.map((item) => item.total_response_length);
@@ -833,16 +832,27 @@ async function fetchDataAndCreateChart() {
 }
 
 function convertDate(dateString) {
-  const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
   const dateParts = dateString.split("-");
   return `${dateParts[2]} ${months[parseInt(dateParts[1], 10) - 1]}`;
 }
 
 async function fillRecents() {
   const x = await myGlobalUser.getIdToken();
-  const response = await fetch(
-    `https://stuntai-api.onrender.com/api/v1/favourites/${x}`
-  );
+  const response = await fetch(`${API_URL}/api/v1/favourites/${x}`);
 
   const apiData = await response.json();
 
