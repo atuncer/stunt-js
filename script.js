@@ -7,7 +7,6 @@ if (
 }
 
 const API_URL = "https://app.stuntai.co";
-
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
   authDomain: "stuntai-74414.firebaseapp.com",
