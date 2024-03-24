@@ -146,6 +146,15 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userName", user.displayName);
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
+
+    if (window.location.pathname === "/pricing" || window.location.pathname === "/pricing/") {
+      document.querySelectorAll("#w-tabs-0-data-w-pane-0 > div > div > a").forEach(element => {
+        if (element.href.includes('https://buy.stripe.com/')) {
+          element.href += `?prefilled_email=${encodeURIComponent(window.user.email)}&client_reference_id=${encodeURIComponent(window.user.uid)}`;
+        }
+      });
+    }
+
     if (
       (window.location.href.includes("my-dashboard") ||
         window.location.href.includes("manage-your-account")) &&
