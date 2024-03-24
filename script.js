@@ -150,7 +150,7 @@ function handleStripeHref() {
   }
 }
 
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged(async (user) => {
   let publicElements = document.querySelectorAll("[data-onlogin='hide']");
   let privateElements = document.querySelectorAll("[data-onlogin='show']");
 
@@ -164,7 +164,7 @@ auth.onAuthStateChanged((user) => {
 
     handleStripeHref();
     if (window.location.href.includes('manage-your-account')) {
-      myPlans(user);
+      await myPlans(user);
     }
 
     if (
@@ -901,7 +901,7 @@ async function fillRecents() {
   document.querySelector("#recents").replaceChildren(...elements);
 }
 
-function myPlans(user) {
+async function myPlans(user) {
   const idToProductMap = {
     "prod_PnCewPGTjnZKkF": "elite_yearly",
     "prod_PnCbkIUP3oQHy4": "super_yearly",
@@ -915,7 +915,9 @@ function myPlans(user) {
     "prod_PjeUaaUuw7qDtK": "limited_monthly"
   };
 
-  fetch(`${API_URL}/api/v1/get_user_subscription/${user.uid}`).then((response) => {
+  const user_token = await user.getIdToken();
+
+  fetch(`${API_URL}/api/v1/get_user_subscription/${user_token}`).then((response) => {
     if (response.status === 200) {
       response.json().then(data => {
         const product = idToProductMap[data.plan];
