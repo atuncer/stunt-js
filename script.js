@@ -93,7 +93,7 @@ async function handleRedirect(user) {
   const id_token = await user.getIdToken();
   fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
     if (response.status === 200) {
-      window.location.href = "portal/my-dashboard-copy";
+      window.location.href = "portal/my-dashboard";
       return;
     }
     window.location.href = "pricing";
@@ -195,7 +195,7 @@ auth.onAuthStateChanged(async (user) => {
     window.fetchData(user);
   }
 
-  const dashboard = "/portal/my-dashboard-copy";
+  const dashboard = "/portal/my-dashboard";
   const signIn = "/sign-in-copy";
 
   console.log(
