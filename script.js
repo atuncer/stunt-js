@@ -90,7 +90,7 @@ function handleRedirect(user) {
     window.location.href = "activate-account";
     return;
   }
-  fetch(`${API_URL}/api/v1/is_user_enrolled/${userCredential.user.getIdToken()}`).then((response) => {
+  fetch(`${API_URL}/api/v1/is_user_enrolled/${user.getIdToken()}`).then((response) => {
     if (response.status === 200) {
       window.location.href = "portal/my-dashboard-copy";
       return;
