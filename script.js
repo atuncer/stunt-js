@@ -924,6 +924,10 @@ async function myPlans(user) {
         if (product) {
           document.querySelector("#your_plan_account").appendChild(document.querySelector(`#${product}`));
           document.querySelector(`#${product}`).style.display = "block";
+
+          document.querySelector("#best_option_for_you").appendChild(document.querySelector("elite_yearly"));
+          document.querySelector("elite_yearly").style.display = "block";
+
         }
       });
     }
