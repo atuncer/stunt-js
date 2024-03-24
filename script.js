@@ -163,6 +163,9 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userMail", user.email);
 
     handleStripeHref();
+    if (window.location.href.includes('manage-your-account')) {
+      myPlans(user);
+    }
 
     if (
       (window.location.href.includes("my-dashboard") ||
@@ -898,7 +901,7 @@ async function fillRecents() {
   document.querySelector("#recents").replaceChildren(...elements);
 }
 
-function myPlans() {
+function myPlans(user) {
   const idToProductMap = {
     "prod_PnCewPGTjnZKkF": "elite_yearly",
     "prod_PnCbkIUP3oQHy4": "super_yearly",
@@ -912,7 +915,7 @@ function myPlans() {
     "prod_PjeUaaUuw7qDtK": "limited_monthly"
   };
 
-  fetch(`${API_URL}/api/v1/get_user_subscription/${myGlobalUser.uid}`).then((response) => {
+  fetch(`${API_URL}/api/v1/get_user_subscription/${user.uid}`).then((response) => {
     if (response.status === 200) {
       response.json().then(data => {
         const product = idToProductMap[data.plan];
