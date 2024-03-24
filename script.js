@@ -68,26 +68,6 @@ function handleSignUp(e) {
           // An error happened.
           console.error("Error sending email verification:", error);
         });
-      document.addEventListener("DOMContentLoaded", function () {
-        // Add event listener to the button with ID 'resend_mail'
-        document
-          .getElementById("resend_mail")
-          .addEventListener("click", function () {
-            // Send email verification when the button is clicked
-            user
-              .sendEmailVerification()
-              .then(function () {
-                // Email sent.
-                console.log("Email verification sent to: " + user.email);
-                // You can also show a success message to the user if needed
-              })
-              .catch(function (error) {
-                // An error happened.
-                console.error("Error sending email verification:", error);
-                // You can also show an error message to the user if needed
-              });
-          });
-      });
 
       return user.updateProfile({
         displayName: user_name,
@@ -972,4 +952,24 @@ async function myPlans(user) {
   );
 }
 
-document.querySelector("#your_plan_account");
+if (window.location.href.includes("email-sent")) {
+  document.addEventListener("DOMContentLoaded", function () {
+    document
+      .getElementById("resend_mail")
+      .addEventListener("click", function () {
+        // Send email verification when the button is clicked
+        user
+          .sendEmailVerification()
+          .then(function () {
+            // Email sent.
+            console.log("Email verification sent to: " + user.email);
+            // You can also show a success message to the user if needed
+          })
+          .catch(function (error) {
+            // An error happened.
+            console.error("Error sending email verification:", error);
+            // You can also show an error message to the user if needed
+          });
+      });
+  });
+}
