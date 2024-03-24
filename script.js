@@ -84,13 +84,14 @@ function handleSignUp(e) {
     });
 }
 
-function handleRedirect(user) {
+async function handleRedirect(user) {
   if (!user.emailVerified) {
     console.log("Email not verified");
     window.location.href = "activate-account";
     return;
   }
-  fetch(`${API_URL}/api/v1/is_user_enrolled/${user.getIdToken()}`).then((response) => {
+  const id_token = await user.getIdToken()
+  fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
     if (response.status === 200) {
       window.location.href = "portal/my-dashboard-copy";
       return;
