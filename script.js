@@ -136,6 +136,20 @@ function handleSignOut() {
     });
 }
 
+function handleStripeHref() {
+  if (window.location.pathname === "/pricing" || window.location.pathname === "/pricing/") {
+    document.querySelectorAll("#w-tabs-0-data-w-pane-0 > div > div > a, #w-tabs-0-data-w-pane-1 > div > div > a").forEach(element => {
+      if (element.href.includes('https://buy.stripe.com/')) {
+        element.href += `?prefilled_email=${encodeURIComponent(window.user.email)}&client_reference_id=${encodeURIComponent(window.user.uid)}`;
+      }
+    });
+  }
+
+  if (window.location.href.includes("manage-your-account")) {
+    document.querySelector("#change_plan").href += `?prefilled_email=${encodeURIComponent(window.user.email)}`;
+  }
+}
+
 auth.onAuthStateChanged((user) => {
   let publicElements = document.querySelectorAll("[data-onlogin='hide']");
   let privateElements = document.querySelectorAll("[data-onlogin='show']");
@@ -148,13 +162,7 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
 
-    if (window.location.pathname === "/pricing" || window.location.pathname === "/pricing/") {
-      document.querySelectorAll("#w-tabs-0-data-w-pane-0 > div > div > a, #w-tabs-0-data-w-pane-1 > div > div > a").forEach(element => {
-        if (element.href.includes('https://buy.stripe.com/')) {
-          element.href += `?prefilled_email=${encodeURIComponent(window.user.email)}&client_reference_id=${encodeURIComponent(window.user.uid)}`;
-        }
-      });
-    }
+    handleStripeHref();
 
     if (
       (window.location.href.includes("my-dashboard") ||
@@ -889,3 +897,33 @@ async function fillRecents() {
 
   document.querySelector("#recents").replaceChildren(...elements);
 }
+
+function myPlans() {
+  const idToProductMap = {
+    "prod_PnCewPGTjnZKkF": "elite_yearly",
+    "prod_PnCbkIUP3oQHy4": "super_yearly",
+    "prod_PnCWmjPQpoN6Ft": "big_yearly",
+    "prod_PnCP6dSDWNrJwL": "professional_yearly",
+    "prod_PjiftEwvwXYU3B": "limited_yearly",
+    "prod_PnCcyWcEVruu81": "elite_monthly",
+    "prod_PnCa0d38Kk9Vyw": "super_monthly",
+    "prod_PnCVNin7Kj78hN": "big_monthly",
+    "prod_PnCONrdouMXApU": "professional_monthly",
+    "prod_PjeUaaUuw7qDtK": "limited_monthly"
+  };
+
+  fetch(`${API_URL}/api/v1/get_user_subscription/${myGlobalUser.uid}`).then((response) => {
+    if (response.status === 200) {
+      response.json().then(data => {
+        const product = idToProductMap[data.plan];
+        if (product) {
+          document.querySelector("#your_plan_account").appendChild(document.querySelector(`#${product}`));
+          document.querySelector(`#${product}`).style.display = "block";
+        }
+      });
+    }
+  });
+
+}
+
+document.querySelector("#your_plan_account")
