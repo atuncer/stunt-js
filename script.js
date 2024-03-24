@@ -83,6 +83,24 @@ function handleSignUp(e) {
       errorText.innerHTML = errorMessage;
     });
 }
+
+function handleRedirect(user) {
+  if (!user.emailVerified) {
+    console.log("Email not verified");
+    window.location.href = "activate-account";
+    return;
+  }
+  fetch(`${API_URL}/api/v1/is_user_enrolled/${userCredential.user.getIdToken()}`).then((response) => {
+    if (response.status === 200) {
+      window.location.href = "portal/my-dashboard-copy";
+      return;
+    } 
+    window.location.href = "pricing";
+    return;
+    
+  });
+}
+
 function handleSignIn(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -94,7 +112,7 @@ function handleSignIn(e) {
     .signInWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      window.location.href = "portal/my-dashboard";
+      handleRedirect(user);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -149,20 +167,16 @@ auth.onAuthStateChanged((user) => {
   const dashboard = "/portal/my-dashboard-copy";
   const signIn = "/sign-in-copy";
 
-  console.log(
-    "isSignInPage: ",
-    window.location.href.indexOf("sign-in") > -1,
-    " user: " + user
-  );
+  console.log("isSignInPage: ", window.location.href.indexOf("sign-in") > -1, " user: " + user);
 
   if (
     (window.location.href.indexOf("sign-in") > -1 ||
       window.location.href.indexOf("sign-up") > -1) &&
     user
   ) {
-    window.location.href = dashboard;
+    handleRedirect(user)
   }
-  if (window.location.href.includes("portal/") && !user) {
+  else if (window.location.href.includes("portal/") && !user) {
     window.location.href = signIn;
   }
 });
