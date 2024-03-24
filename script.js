@@ -148,7 +148,7 @@ auth.onAuthStateChanged((user) => {
     updateUserElement("#userMail", user.email);
 
     if (window.location.pathname === "/pricing" || window.location.pathname === "/pricing/") {
-      document.querySelectorAll("#w-tabs-0-data-w-pane-0 > div > div > a").forEach(element => {
+      document.querySelectorAll("#w-tabs-0-data-w-pane-0 > div > div > a, #w-tabs-0-data-w-pane-1 > div > div > a").forEach(element => {
         if (element.href.includes('https://buy.stripe.com/')) {
           element.href += `?prefilled_email=${encodeURIComponent(window.user.email)}&client_reference_id=${encodeURIComponent(window.user.uid)}`;
         }
