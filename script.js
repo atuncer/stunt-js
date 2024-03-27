@@ -234,7 +234,7 @@ function updateUserElement(elementId, value) {
   }
 }
 
-async function sendMessage(rewritePrompt = "", myUuid = "") {
+async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const myOutputLanguage =
     document.getElementById("language").options[
       document.getElementById("language").selectedIndex
@@ -441,7 +441,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "") {
   let endToken = " ---END--- ";
   window.uids = [];
   let endTokenReached = false;
-  let isNew = true;
 
   reader.read().then(function processResult(result) {
     if (result.done) return;
@@ -500,11 +499,6 @@ parentElement.addEventListener("click", function (event) {
   if (submitButton) {
     console.log("Submit button clicked!");
     sendMessage();
-  }
-
-  if (event.target.classList.contains("rewriteButton")) {
-    console.log("rewrite button clicked!");
-    sendMessage(document.getElementById("rewriteText").value, window.uids[0]);
   }
 
   const matchedElement = hasMatchingIdOrParentWithId("copy", event.target);
@@ -594,7 +588,11 @@ parentElement.addEventListener("click", function (event) {
   const matchedElement4 = hasMatchingIdOrParent("rewriteButton", event.target);
 
   if (matchedElement4) {
-    sendMessage(document.querySelector("#rewriteText").value, window.uids[0]);
+    sendMessage(
+      (rewritePrompt = document.querySelector("#rewriteText").value),
+      (myUuid = window.uids[0]),
+      (isNew = false)
+    );
     document.querySelector("#myOutputText1").innerHTML = "";
     document.querySelector("#output2").style.display = "none";
     document.querySelector("#output3").style.display = "none";
