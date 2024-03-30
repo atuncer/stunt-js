@@ -92,7 +92,7 @@ async function handleRedirect(user) {
   }
   const id_token = await user.getIdToken();
   fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
-    if (response.status === 200) {
+    if ([200, 207].includes(response.status)) {
       window.location.href = "portal/my-dashboard";
       return;
     }
@@ -813,11 +813,18 @@ window.showToast = function (text) {
 
 async function fetchDataAndCreateChart() {
   // Obtain the ID token
-  const x = await myGlobalUser.getIdToken();
+  const user_token = await myGlobalUser.getIdToken();
 
   // Fetch data from the API
+  const is_blurred = await fetch(`${API_URL}/api/v1/is_user_enrolled/${user_token}`);
+  if (is_blurred.status === 207) {
+    document.querySelector("#popup-bg").style.display = "block";
+    document.querySelector("#popup").style.display = "block";
+    return;
+  }
 
-  const response = await fetch(`${API_URL}/api/v1/usage/daily/${x}`);
+
+  const response = await fetch(`${API_URL}/api/v1/usage/daily/${user_token}`);
   const apiData = await response.json();
   const data = apiData.slice(-5);
 
