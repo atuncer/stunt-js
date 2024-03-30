@@ -948,8 +948,8 @@ async function myPlans(user) {
 
             document
               .querySelector("#best_option_for_you")
-              .appendChild(document.querySelector("elite_yearly"));
-            document.querySelector("elite_yearly").style.display = "block";
+              .appendChild(document.querySelector("#elite_yearly"));
+            document.querySelector("#elite_yearly").style.display = "block";
           }
         });
       }
