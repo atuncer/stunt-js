@@ -560,6 +560,8 @@ parentElement.addEventListener("click", function (event) {
 
     const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=1`;
 
+    window.showToast('Liked!')
+
     fetch(apiUrl, {
       method: "GET",
     })
@@ -582,6 +584,8 @@ parentElement.addEventListener("click", function (event) {
     const uid = window.uids[num];
 
     const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=0`;
+
+    window.showToast('Disliked!')
 
     fetch(apiUrl, {
       method: "GET",
