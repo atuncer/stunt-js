@@ -177,6 +177,16 @@ auth.onAuthStateChanged(async (user) => {
       await myPlans(user);
     }
 
+    if (window.location.href.includes("portal")) {
+      const user_token = await myGlobalUser.getIdToken();
+
+      // Fetch data from the API
+      const is_blurred = await fetch(`${API_URL}/api/v1/is_user_enrolled/${user_token}`);
+      if (is_blurred.status === 207) {
+        document.querySelector("#popup-bg").style.display = "block";
+        document.querySelector("#popup").style.display = "block";
+      }
+    }
     if (
       (window.location.href.includes("my-dashboard") ||
         window.location.href.includes("manage-your-account")) &&
@@ -449,7 +459,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     if (isNew) {
       document.getElementById(`myOutputText1`).innerHTML = "";
-      document.getElementById(`myOutputText2`).innerHTML = "";
+document.getElementById(`myOutputText2`).innerHTML = "";
       document.getElementById(`myOutputText3`).innerHTML = "";
       isNew = false;
     }
@@ -516,7 +526,7 @@ parentElement.addEventListener("click", function (event) {
         navigator.clipboard
           .writeText(textToCopy)
           .then(() => {
-            alert("Copied to clipboard!");
+            window.showToast('Copied to clipboard')
           })
           .catch((err) => {
             console.error("Failed to copy: ", err);
@@ -818,8 +828,6 @@ async function fetchDataAndCreateChart() {
   // Fetch data from the API
   const is_blurred = await fetch(`${API_URL}/api/v1/is_user_enrolled/${user_token}`);
   if (is_blurred.status === 207) {
-    document.querySelector("#popup-bg").style.display = "block";
-    document.querySelector("#popup").style.display = "block";
     return;
   }
 
