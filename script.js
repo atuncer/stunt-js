@@ -464,7 +464,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     if (token.includes(endToken)) {
       new_div_required = true;
-      let tokens = token.split(endToken);
+      let tokens = token.split(/\s*---END---\s*[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\s*/);
       uids.push(tokens[1]);
       token = tokens[0];
       token_left = tokens[1];
@@ -477,7 +477,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       newOutput.style.display = "block";
       baseOutput.parentNode.appendChild(newOutput);
 
-      newOutput.querySelector("#myOutputText_0").innerHTML = token_left ? token_left : "";
+      newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML = token_left ? token_left : "";
     }
 
     document
