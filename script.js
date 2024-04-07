@@ -453,7 +453,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   window.uids = [];
   let endTokenReached = false;
 
-  let current_answer_len = -1;
+  let current_answer_len = 0;
 
   reader.read().then(function processResult(result) {
     if (result.done) return;
@@ -464,7 +464,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     if (window.uids.length > current_answer_len) {
       let newOutput = baseOutput.cloneNode(true);
       newOutput.id = `output_${uids.length + 1}`;
-      newOutput.querySelector("#myOutputText_1").id = `myOutputText${
+      newOutput.querySelector("#myOutputText_0").id = `myOutputText_${
         uids.length + 1
       }`;
       newOutput.style.display = "block";
