@@ -463,9 +463,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     if (window.uids.length > current_answer_len) {
       let newOutput = baseOutput.cloneNode(true);
-      newOutput.id = `output_${uids.length + 1}`;
+      newOutput.id = `output_${uids.length}`;
       newOutput.querySelector("#myOutputText_0").id = `myOutputText_${
-        uids.length + 1
+        uids.length
       }`;
       newOutput.style.display = "block";
       baseOutput.parentNode.appendChild(newOutput);
@@ -481,8 +481,8 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     }
 
     document
-      .querySelector(`#output_${uids.length + 1}`)
-      .querySelector(`#myOutputText_${uids.length + 1}`).innerHTML += token + "";
+      .querySelector(`#output_${uids.length}`)
+      .querySelector(`#myOutputText_${uids.length}`).innerHTML += token + "";
 
     endTokenReached = false;
 
@@ -522,7 +522,7 @@ parentElement.addEventListener("click", function (event) {
   const matchedElement = hasMatchingIdOrParentWithId("copy", event.target);
 
   if (matchedElement) {
-    const num = parseInt(matchedElement.id.match(/\d+/)[0]) + 1;
+    const num = parseInt(matchedElement.id.match(/\d+/)[0]);
     const sourceId = "myOutputText_" + num;
     const sourceElement = document.getElementById(sourceId);
 
@@ -793,8 +793,8 @@ function fillInputFieldsFromUrlParams() {
   });
 
   outputsArray.forEach((output, index) => {
-    document.querySelector(`#output_${index + 1}`).style.display = "block";
-    document.querySelector(`#myOutputText_${index + 1}`).innerHTML = output;
+    document.querySelector(`#output_${index}`).style.display = "block";
+    document.querySelector(`#myOutputText_${index}`).innerHTML = output;
   });
 }
 
