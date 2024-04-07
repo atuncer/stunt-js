@@ -458,6 +458,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   reader.read().then(function processResult(result) {
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
+    baseOutput.style.display = "block";
 
     let token = decoder.decode(result.value);
 
