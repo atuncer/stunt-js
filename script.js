@@ -181,10 +181,11 @@ auth.onAuthStateChanged(async (user) => {
       const user_token = await myGlobalUser.getIdToken();
 
       // Fetch data from the API
-      const is_blurred = await fetch(`${API_URL}/api/v1/is_user_enrolled/${user_token}`);
+      const is_blurred = await fetch(
+        `${API_URL}/api/v1/is_user_enrolled/${user_token}`
+      );
       if (is_blurred.status === 207) {
-        document.querySelector("#popup-bg").style.display = "block";
-        document.querySelector("#popup").style.display = "block";
+        document.querySelector("#blur").style.display = "block";
       }
     }
     if (
@@ -528,7 +529,7 @@ parentElement.addEventListener("click", function (event) {
         navigator.clipboard
           .writeText(textToCopy)
           .then(() => {
-            window.showToast('Copied to clipboard')
+            window.showToast("Copied to clipboard");
           })
           .catch((err) => {
             console.error("Failed to copy: ", err);
@@ -562,7 +563,7 @@ parentElement.addEventListener("click", function (event) {
 
     const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=1`;
 
-    window.showToast('Liked!')
+    window.showToast("Liked!");
 
     fetch(apiUrl, {
       method: "GET",
@@ -587,7 +588,7 @@ parentElement.addEventListener("click", function (event) {
 
     const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=0`;
 
-    window.showToast('Disliked!')
+    window.showToast("Disliked!");
 
     fetch(apiUrl, {
       method: "GET",
@@ -829,11 +830,12 @@ async function fetchDataAndCreateChart() {
   const user_token = await myGlobalUser.getIdToken();
 
   // Fetch data from the API
-  const is_blurred = await fetch(`${API_URL}/api/v1/is_user_enrolled/${user_token}`);
+  const is_blurred = await fetch(
+    `${API_URL}/api/v1/is_user_enrolled/${user_token}`
+  );
   if (is_blurred.status === 207) {
     return;
   }
-
 
   const response = await fetch(`${API_URL}/api/v1/usage/daily/${user_token}`);
   const apiData = await response.json();
