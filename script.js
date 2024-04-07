@@ -454,7 +454,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   let endToken = " ---END--- ";
   isNewFlag = true;
 
-
   reader.read().then(function processResult(result) {
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
@@ -465,7 +464,10 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
-      baseOutput.parentNode.insertBefore(newOutput, baseOutput);
+      baseOutput.parentNode.insertBefore(
+        newOutput,
+        baseOutput.parentNode.firstChild
+      );
       isNewFlag = false;
     }
 
@@ -479,20 +481,36 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
       }
-      
+
       if (isNew) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
         baseOutput.parentNode.appendChild(newOutput);
-        newOutput.querySelector(`#myOutputText_${window.uids.length}`).innerHTML = token_left ? token_left : "";
+        newOutput.querySelector(
+          `#myOutputText_${window.uids.length}`
+        ).innerHTML = token_left ? token_left : "";
       }
     }
 
     document
       .querySelector(`#output_${window.uids.length}`)
-      .querySelector(`#myOutputText_${window.uids.length}`).innerHTML += token + "";
+      .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+      token + "";
 
-    endTokenReached = false;
+    const middleContainers = document.querySelectorAll(
+      "section > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > aside > div"
+    );
+
+    middleContainers.forEach((container) => {
+      // For each middle container, find the text inside
+      const textInside = container.querySelector("div > div");
+
+      // Check if the text inside is empty or null
+      if (textInside && !textInside.textContent.trim()) {
+        // Remove the middle container
+        container.remove();
+      }
+    });
 
     return reader.read().then(processResult);
   });
@@ -503,10 +521,14 @@ function deepCopyResponseDiv(baseOutput) {
   newOutput.id = `output_${window.uids.length}`;
 
   newOutput.querySelector("#myOutputText_0").innerHTML = "";
-  newOutput.querySelector("#myOutputText_0").id = `myOutputText_${window.uids.length}`;
+  newOutput.querySelector(
+    "#myOutputText_0"
+  ).id = `myOutputText_${window.uids.length}`;
   newOutput.querySelector("#copy0").id = `copy${window.uids.length}`;
   newOutput.querySelector("#thumbs-up0").id = `thumbs-up${window.uids.length}`;
-  newOutput.querySelector("#thumbs-down0").id = `thumbs-down${window.uids.length}`;
+  newOutput.querySelector(
+    "#thumbs-down0"
+  ).id = `thumbs-down${window.uids.length}`;
 
   return newOutput;
 }
