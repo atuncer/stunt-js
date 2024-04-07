@@ -1,4 +1,6 @@
 const elementToRemove = document.getElementById("desktop_view");
+window.uids = [];
+
 if (
   elementToRemove &&
   window.getComputedStyle(elementToRemove).display === "none"
@@ -450,10 +452,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   var reader = response.body.getReader();
   var decoder = new TextDecoder("utf-8");
   let endToken = " ---END--- ";
-  window.uids = [];
   isNewFlag = true;
 
-  
+
   reader.read().then(function processResult(result) {
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
@@ -483,13 +484,13 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
         baseOutput.parentNode.appendChild(newOutput);
-        newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML = token_left ? token_left : "";
+        newOutput.querySelector(`#myOutputText_${window.uids.length}`).innerHTML = token_left ? token_left : "";
       }
     }
 
     document
-      .querySelector(`#output_${uids.length}`)
-      .querySelector(`#myOutputText_${uids.length}`).innerHTML += token + "";
+      .querySelector(`#output_${window.uids.length}`)
+      .querySelector(`#myOutputText_${window.uids.length}`).innerHTML += token + "";
 
     endTokenReached = false;
 
@@ -499,12 +500,12 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
 function deepCopyResponseDiv(baseOutput) {
   let newOutput = baseOutput.cloneNode(true);
-  newOutput.id = `output_${uids.length}`;
+  newOutput.id = `output_${window.uids.length}`;
 
-  newOutput.querySelector("#myOutputText_0").id = `myOutputText_${uids.length}`;
-  newOutput.querySelector("#copy0").id = `copy${uids.length}`;
-  newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
-  newOutput.querySelector("#thumbs-down0").id = `thumbs-down${uids.length}`;
+  newOutput.querySelector("#myOutputText_0").id = `myOutputText_${window.uids.length}`;
+  newOutput.querySelector("#copy0").id = `copy${window.uids.length}`;
+  newOutput.querySelector("#thumbs-up0").id = `thumbs-up${window.uids.length}`;
+  newOutput.querySelector("#thumbs-down0").id = `thumbs-down${window.uids.length}`;
 
   return newOutput;
 }
