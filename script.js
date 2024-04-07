@@ -451,6 +451,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   var decoder = new TextDecoder("utf-8");
   let endToken = " ---END--- ";
   window.uids = [];
+  isNewFlag = true;
 
   reader.read().then(function processResult(result) {
     if (result.done) return;
@@ -459,11 +460,11 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     let token = decoder.decode(result.value);
 
-    if (!isNew) {
+    if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
       baseOutput.parentNode.insertBefore(newOutput, baseOutput);
-
+      isNewFlag = false;
     }
 
     if (token.includes(endToken)) {
