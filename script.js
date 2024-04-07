@@ -452,8 +452,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   let endToken = " ---END--- ";
   window.uids = [];
 
-  let new_div_required = false;
-
   reader.read().then(function processResult(result) {
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
@@ -461,29 +459,37 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     let token = decoder.decode(result.value);
 
-
     if (token.includes(endToken)) {
-      new_div_required = true;
-      const partsWithUuid = token.match(/(.*?)\s*---END---\s*([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\s*(.*)/);
+      const partsWithUuid = token.match(
+        /(.*?)\s*---END---\s*([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\s*(.*)/
+      );
 
       if (partsWithUuid) {
         token = partsWithUuid[1];
-        uids.push(partsWithUuid[2]);
+        if (isNew) {
+          window.uids.push(partsWithUuid[2]);
+        }
         token_left = partsWithUuid[3];
       }
+      if (isNew) {
+        let newOutput = baseOutput.cloneNode(true);
+        newOutput.id = `output_${uids.length}`;
 
-      let newOutput = baseOutput.cloneNode(true);
-      newOutput.id = `output_${uids.length}`;
+        newOutput.querySelector(
+          "#myOutputText_0"
+        ).id = `myOutputText_${uids.length}`;
+        newOutput.querySelector("#copy0").id = `copy${uids.length}`;
+        newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
+        newOutput.querySelector(
+          "#thumbs-down0"
+        ).id = `thumbs-down${uids.length}`;
 
-      newOutput.querySelector("#myOutputText_0").id = `myOutputText_${uids.length}`;
-      newOutput.querySelector("#copy0").id = `copy${uids.length}`;
-      newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
-      newOutput.querySelector("#thumbs-down0").id = `thumbs-down${uids.length}`;
+        newOutput.style.display = "block";
+        baseOutput.parentNode.appendChild(newOutput);
 
-      newOutput.style.display = "block";
-      baseOutput.parentNode.appendChild(newOutput);
-
-      newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML = token_left ? token_left : "";
+        newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML =
+          token_left ? token_left : "";
+      }
     }
 
     document
