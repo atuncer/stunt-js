@@ -476,7 +476,8 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       }`;
       newOutput.style.display = "block";
       baseOutput.parentNode.appendChild(newOutput);
-      newOutput.querySelector("#myOutputText_0").innerHTML = token_left;
+
+      newOutput.querySelector("#myOutputText_0").innerHTML = token_left ? token_left : "";
     }
 
     document
