@@ -458,7 +458,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     let myTextBoxClass = `myOutputText${uids.length + 1}`;
 
-    let baseOutput = document.getElementById('output_1');
+    let baseOutput = document.getElementById('output_0');
 
     // deep copy baseOutput
     let newOutput = baseOutput.cloneNode(true);
@@ -477,7 +477,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       endTokenReached = true;
     }
     console.log("ahjakjshd: " + myTextBoxClass);
-    newOutput.getElementById(`myOutputText${uids.length + 1}`).innerHTML += token + "";
+    newOutput.querySelector(`#myOutputText${uids.length + 1}`).innerHTML += token + "";
 
     endTokenReached = false;
 
