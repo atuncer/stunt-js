@@ -457,15 +457,17 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     let myTextBoxClass = `myOutputText${uids.length + 1}`;
 
-    if (isNew) {
-      document.getElementById(`myOutputText1`).innerHTML = "";
-document.getElementById(`myOutputText2`).innerHTML = "";
-      document.getElementById(`myOutputText3`).innerHTML = "";
-      isNew = false;
-    }
+    let baseOutput = document.getElementById('output_1');
+
+    // deep copy baseOutput
+    let newOutput = baseOutput.cloneNode(true);
+    newOutput.id = `output_${uids.length + 1}`;
+    newOutput.querySelector("#myOutputText_1").id = `myOutputText${uids.length + 1}`;
+
     let token = decoder.decode(result.value);
 
-    document.getElementById(`output${uids.length + 1}`).style.display = "block";
+    newOutput.style.display = "block";
+    baseOutput.parentNode.appendChild(newOutput);
 
     if (token.includes(endToken)) {
       let tokens = token.split(endToken);
@@ -474,7 +476,7 @@ document.getElementById(`myOutputText2`).innerHTML = "";
       endTokenReached = true;
     }
     console.log("ahjakjshd: " + myTextBoxClass);
-    document.getElementById(myTextBoxClass).innerHTML += token + "";
+    newOutput.getElementById(`myOutputText${uids.length + 1}`).innerHTML += token + "";
 
     endTokenReached = false;
 
@@ -515,7 +517,7 @@ parentElement.addEventListener("click", function (event) {
 
   if (matchedElement) {
     const num = parseInt(matchedElement.id.match(/\d+/)[0]) + 1;
-    const sourceId = "myOutputText" + num;
+    const sourceId = "myOutputText_" + num;
     const sourceElement = document.getElementById(sourceId);
 
     if (sourceElement) {
@@ -607,9 +609,6 @@ parentElement.addEventListener("click", function (event) {
       (myUuid = window.uids[0]),
       (isNew = false)
     );
-    document.querySelector("#myOutputText1").innerHTML = "";
-    document.querySelector("#output2").style.display = "none";
-    document.querySelector("#output3").style.display = "none";
   }
 
   const matchedElement5 = hasMatchingIdOrParent("google", event.target);
@@ -788,8 +787,8 @@ function fillInputFieldsFromUrlParams() {
   });
 
   outputsArray.forEach((output, index) => {
-    document.querySelector(`#output${index + 1}`).style.display = "block";
-    document.querySelector(`#myOutputText${index + 1}`).innerHTML = output;
+    document.querySelector(`#output_${index + 1}`).style.display = "block";
+    document.querySelector(`#myOutputText_${index + 1}`).innerHTML = output;
   });
 }
 
