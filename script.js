@@ -459,8 +459,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     let myTextBoxClass = `myOutputText${uids.length + 1}`;
 
     let baseOutput = document.getElementById('output_0');
-
-    // deep copy baseOutput
+    
     let newOutput = baseOutput.cloneNode(true);
     newOutput.id = `output_${uids.length + 1}`;
     newOutput.querySelector("#myOutputText_1").id = `myOutputText${uids.length + 1}`;
