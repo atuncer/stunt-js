@@ -502,6 +502,7 @@ function deepCopyResponseDiv(baseOutput) {
   let newOutput = baseOutput.cloneNode(true);
   newOutput.id = `output_${window.uids.length}`;
 
+  newOutput.querySelector("#myOutputText_0").innerHTML = "";
   newOutput.querySelector("#myOutputText_0").id = `myOutputText_${window.uids.length}`;
   newOutput.querySelector("#copy0").id = `copy${window.uids.length}`;
   newOutput.querySelector("#thumbs-up0").id = `thumbs-up${window.uids.length}`;
