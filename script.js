@@ -466,31 +466,35 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
       if (partsWithUuid) {
         token = partsWithUuid[1];
-        if (isNew) {
-          window.uids.push(partsWithUuid[2]);
-        }
+        window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
       }
+
+      let newOutput = baseOutput.cloneNode(true);
+      newOutput.id = `output_${uids.length}`;
+
+      newOutput.querySelector(
+        "#myOutputText_0"
+      ).id = `myOutputText_${uids.length}`;
+      newOutput.querySelector("#copy0").id = `copy${uids.length}`;
+      newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
+      newOutput.querySelector(
+        "#thumbs-down0"
+      ).id = `thumbs-down${uids.length}`;
+
+      newOutput.style.display = "block";
+
       if (isNew) {
-        let newOutput = baseOutput.cloneNode(true);
-        newOutput.id = `output_${uids.length}`;
-
-        newOutput.querySelector(
-          "#myOutputText_0"
-        ).id = `myOutputText_${uids.length}`;
-        newOutput.querySelector("#copy0").id = `copy${uids.length}`;
-        newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
-        newOutput.querySelector(
-          "#thumbs-down0"
-        ).id = `thumbs-down${uids.length}`;
-
-        newOutput.style.display = "block";
-        baseOutput.parentNode.appendChild(newOutput);
-
-        newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML =
-          token_left ? token_left : "";
+      baseOutput.parentNode.appendChild(newOutput);
+      } else {
+        baseOutput.parentNode.insertBefore(newOutput, baseOutput.parentNode.firstChild);
       }
+
+      newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML =
+        token_left ? token_left : "";
+      
     }
+    
 
     document
       .querySelector(`#output_${uids.length}`)
