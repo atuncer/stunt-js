@@ -476,16 +476,13 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
       }
-
       
       if (isNew) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
         baseOutput.parentNode.appendChild(newOutput);
+        newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML = token_left ? token_left : "";
       }
-
-      newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML =
-        token_left ? token_left : "";
     }
 
     document
