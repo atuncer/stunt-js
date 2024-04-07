@@ -459,6 +459,13 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     let token = decoder.decode(result.value);
 
+    if (!isNew) {
+      let newOutput = deepCopyResponseDiv(baseOutput);
+      newOutput.style.display = "block";
+      baseOutput.parentNode.insertBefore(newOutput, baseOutput);
+
+    }
+
     if (token.includes(endToken)) {
       const partsWithUuid = token.match(
         /(.*?)\s*---END---\s*([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\s*(.*)/
@@ -470,31 +477,16 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         token_left = partsWithUuid[3];
       }
 
-      let newOutput = baseOutput.cloneNode(true);
-      newOutput.id = `output_${uids.length}`;
-
-      newOutput.querySelector(
-        "#myOutputText_0"
-      ).id = `myOutputText_${uids.length}`;
-      newOutput.querySelector("#copy0").id = `copy${uids.length}`;
-      newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
-      newOutput.querySelector(
-        "#thumbs-down0"
-      ).id = `thumbs-down${uids.length}`;
-
-      newOutput.style.display = "block";
-
+      
       if (isNew) {
-      baseOutput.parentNode.appendChild(newOutput);
-      } else {
-        baseOutput.parentNode.insertBefore(newOutput, baseOutput.parentNode.firstChild);
+        let newOutput = deepCopyResponseDiv(baseOutput);
+        newOutput.style.display = "block";
+        baseOutput.parentNode.appendChild(newOutput);
       }
 
       newOutput.querySelector(`#myOutputText_${uids.length}`).innerHTML =
         token_left ? token_left : "";
-      
     }
-    
 
     document
       .querySelector(`#output_${uids.length}`)
@@ -504,6 +496,18 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     return reader.read().then(processResult);
   });
+}
+
+function deepCopyResponseDiv(baseOutput) {
+  let newOutput = baseOutput.cloneNode(true);
+  newOutput.id = `output_${uids.length}`;
+
+  newOutput.querySelector("#myOutputText_0").id = `myOutputText_${uids.length}`;
+  newOutput.querySelector("#copy0").id = `copy${uids.length}`;
+  newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
+  newOutput.querySelector("#thumbs-down0").id = `thumbs-down${uids.length}`;
+
+  return newOutput;
 }
 
 function hasMatchingIdOrParentWithId(text, element) {
