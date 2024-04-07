@@ -464,16 +464,22 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     if (token.includes(endToken)) {
       new_div_required = true;
-      let tokens = token.split(/\s*---END---\s*[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\s*/);
-      uids.push(tokens[1]);
-      token = tokens[0];
-      token_left = tokens[1];
+      const partsWithUuid = token.match(/(.*?)\s*---END---\s*([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\s*(.*)/);
+
+      if (partsWithUuid) {
+        token = partsWithUuid[1];
+        uids.push(partsWithUuid[2]);
+        token_left = partsWithUuid[3];
+      }
 
       let newOutput = baseOutput.cloneNode(true);
       newOutput.id = `output_${uids.length}`;
-      newOutput.querySelector("#myOutputText_0").id = `myOutputText_${
-        uids.length
-      }`;
+
+      newOutput.querySelector("#myOutputText_0").id = `myOutputText_${uids.length}`;
+      newOutput.querySelector("#copy0").id = `copy${uids.length}`;
+      newOutput.querySelector("#thumbs-up0").id = `thumbs-up${uids.length}`;
+      newOutput.querySelector("#thumbs-down0").id = `thumbs-down${uids.length}`;
+
       newOutput.style.display = "block";
       baseOutput.parentNode.appendChild(newOutput);
 
