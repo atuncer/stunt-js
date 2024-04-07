@@ -453,6 +453,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   window.uids = [];
   isNewFlag = true;
 
+  
   reader.read().then(function processResult(result) {
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
