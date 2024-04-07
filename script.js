@@ -453,21 +453,25 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   window.uids = [];
   let endTokenReached = false;
 
+  let current_answer_len = -1;
+
   reader.read().then(function processResult(result) {
     if (result.done) return;
-
-    let myTextBoxClass = `myOutputText${uids.length + 1}`;
-
-    let baseOutput = document.getElementById('output_0');
-    
-    let newOutput = baseOutput.cloneNode(true);
-    newOutput.id = `output_${uids.length + 1}`;
-    newOutput.querySelector("#myOutputText_1").id = `myOutputText${uids.length + 1}`;
+    let baseOutput = document.getElementById("output_0");
 
     let token = decoder.decode(result.value);
 
-    newOutput.style.display = "block";
-    baseOutput.parentNode.appendChild(newOutput);
+    if (window.uids.length > current_answer_len) {
+      let newOutput = baseOutput.cloneNode(true);
+      newOutput.id = `output_${uids.length + 1}`;
+      newOutput.querySelector("#myOutputText_1").id = `myOutputText${
+        uids.length + 1
+      }`;
+      newOutput.style.display = "block";
+      baseOutput.parentNode.appendChild(newOutput);
+
+      current_answer_len = window.uids.length;
+    }
 
     if (token.includes(endToken)) {
       let tokens = token.split(endToken);
@@ -475,8 +479,10 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       token = tokens[0];
       endTokenReached = true;
     }
-    console.log("ahjakjshd: " + myTextBoxClass);
-    newOutput.querySelector(`#myOutputText${uids.length + 1}`).innerHTML += token + "";
+
+    document
+      .querySelector(`#output_${uids.length + 1}`)
+      .querySelector(`#myOutputText_${uids.length + 1}`).innerHTML += token + "";
 
     endTokenReached = false;
 
