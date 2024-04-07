@@ -451,7 +451,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   var decoder = new TextDecoder("utf-8");
   let endToken = " ---END--- ";
   window.uids = [];
-  let endTokenReached = false;
 
   let new_div_required = false;
 
@@ -462,7 +461,14 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     let token = decoder.decode(result.value);
 
-    if (new_div_required) {
+
+    if (token.includes(endToken)) {
+      new_div_required = true;
+      let tokens = token.split(endToken);
+      uids.push(tokens[1]);
+      token = tokens[0];
+      token_left = tokens[1];
+
       let newOutput = baseOutput.cloneNode(true);
       newOutput.id = `output_${uids.length}`;
       newOutput.querySelector("#myOutputText_0").id = `myOutputText_${
@@ -470,16 +476,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       }`;
       newOutput.style.display = "block";
       baseOutput.parentNode.appendChild(newOutput);
-
-      current_answer_len = window.uids.length;
-    }
-
-    if (token.includes(endToken)) {
-      new_div_required = true;
-      let tokens = token.split(endToken);
-      uids.push(tokens[1]);
-      token = tokens[0];
-      endTokenReached = true;
+      newOutput.querySelector("#myOutputText_0").innerHTML = token_left;
     }
 
     document
