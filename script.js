@@ -932,6 +932,7 @@ function fillInputFieldsFromUrlParams() {
     let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
     newOutput.style.display = "block";
     newOutput.innerHTML = output;
+    document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
 
 }
