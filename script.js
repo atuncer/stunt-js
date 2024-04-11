@@ -211,31 +211,43 @@ function handleStripeHref() {
       )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
     ];
 
-  const buttonIds = ['limited', 'professional', 'big', 'super', 'elite'];
+    const buttonIds = ["limited", "professional", "big", "super", "elite"];
 
-  const id_token = await user.getIdToken();
-  fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
-    if (response.status === 400) {
-      buttonIds.forEach((id, index) => {
-          document.querySelector(`#${id}_y_button`).href = trial_yearly_urls[index];
-          document.querySelector(`#${id}_y_button`).innerText = "Start free trial";
-          document.querySelector(`#${id}_m_button`).href = trial_monthly_urls[index];
-          document.querySelector(`#${id}_m_button`).innerText = "Start free trial";
-      });
-  } else {
-    buttonIds.forEach((id, index) => {
-      document.querySelector(`#${id}_y_button`).href = yearly_urls[index];
-      document.querySelector(`#${id}_y_button`).innerText = "Subscribe now";
-      document.querySelector(`#${id}_m_button`).href = monthly_urls[index];
-      document.querySelector(`#${id}_m_button`).innerText = "Subscribe now";
-  });
+    user.getIdToken().then((id_token) => {
+      fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then(
+        (response) => {
+          if (response.status === 400) {
+            buttonIds.forEach((id, index) => {
+              document.querySelector(`#${id}_y_button`).href =
+                trial_yearly_urls[index];
+              document.querySelector(`#${id}_y_button`).innerText =
+                "Start free trial";
+              document.querySelector(`#${id}_m_button`).href =
+                trial_monthly_urls[index];
+              document.querySelector(`#${id}_m_button`).innerText =
+                "Start free trial";
+            });
+          } else {
+            buttonIds.forEach((id, index) => {
+              document.querySelector(`#${id}_y_button`).href =
+                yearly_urls[index];
+              document.querySelector(`#${id}_y_button`).innerText =
+                "Subscribe now";
+              document.querySelector(`#${id}_m_button`).href =
+                monthly_urls[index];
+              document.querySelector(`#${id}_m_button`).innerText =
+                "Subscribe now";
+            });
+          }
+        }
+      );
+    });
+
+    if (window.location.href.includes("manage-your-account")) {
+      document.querySelector(
+        "#change_plan"
+      ).href += `?prefilled_email=${encodeURIComponent(window.user.email)}`;
     }
-  });
-
-  if (window.location.href.includes("manage-your-account")) {
-    document.querySelector(
-      "#change_plan"
-    ).href += `?prefilled_email=${encodeURIComponent(window.user.email)}`;
   }
 }
 
