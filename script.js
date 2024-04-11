@@ -142,18 +142,95 @@ function handleStripeHref() {
     window.location.pathname === "/pricing" ||
     window.location.pathname === "/pricing/"
   ) {
-    document
-      .querySelectorAll(
-        "#w-tabs-0-data-w-pane-0 > div > div > a, #w-tabs-0-data-w-pane-1 > div > div > a"
-      )
-      .forEach((element) => {
-        if (element.href.includes("https://buy.stripe.com/")) {
-          element.href += `?prefilled_email=${encodeURIComponent(
-            window.user.email
-          )}&client_reference_id=${encodeURIComponent(window.user.uid)}`;
-        }
+    trial_monthly_urls = [
+      `https://buy.stripe.com/test_aEUg0y0nfemBeWY14s?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_bIY01A1rj1zPg12bIP?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_aEUcOmda1a6l2acfZ7?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_aEUcOm3zremB6qs9AL?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_00geWuda12DT8yA7sF?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+    ];
+    trial_yearly_urls = [
+      `https://buy.stripe.com/test_28obKi3zrdixdSU9AG?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_5kA9Ca9XP7Yd0249AI?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_14kg0y9XP92h3egcMW?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_28odSqee5cet7uw8wI?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_bIY3dMb1T6U9eWY4gl?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+    ];
+    monthly_urls = [
+      `https://buy.stripe.com/test_bIY9Caee5emB2ac28m?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_6oE4hQ7PHa6l5mofZe?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_7sIaGeee52DT9CEfZg?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_14k7u26LDfqF6qscN6?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_3cseWugmda6l4ik00m?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+    ];
+    yearly_urls = [
+      `https://buy.stripe.com/test_dR6dSq1rj0vL9CE9AP?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_7sIaGeb1T7Yd3eg4gx?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_28o01Ac5X1zPbKM9AT?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_aEUcOm1rjemB9CE28t?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+      `https://buy.stripe.com/test_5kA01AgmdfqFcOQeVh?prefilled_email=${encodeURIComponent(
+        window.user.email
+      )}&client_reference_id=${encodeURIComponent(window.user.uid)}`,
+    ];
+
+  const buttonIds = ['limited', 'professional', 'big', 'super', 'elite'];
+
+  const id_token = await user.getIdToken();
+  fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
+    if (response.status === 400) {
+      buttonIds.forEach((id, index) => {
+          document.querySelector(`#${id}_y_button`).href = trial_yearly_urls[index];
+          document.querySelector(`#${id}_y_button`).innerText = "Start free trial";
+          document.querySelector(`#${id}_m_button`).href = trial_monthly_urls[index];
+          document.querySelector(`#${id}_m_button`).innerText = "Start free trial";
       });
-  }
+  } else {
+    buttonIds.forEach((id, index) => {
+      document.querySelector(`#${id}_y_button`).href = yearly_urls[index];
+      document.querySelector(`#${id}_y_button`).innerText = "Subscribe now";
+      document.querySelector(`#${id}_m_button`).href = monthly_urls[index];
+      document.querySelector(`#${id}_m_button`).innerText = "Subscribe now";
+  });
+    }
+  });
 
   if (window.location.href.includes("manage-your-account")) {
     document.querySelector(
