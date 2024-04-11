@@ -1096,7 +1096,7 @@ async function myPlans(user) {
               .appendChild(document.querySelector(`#${product}`));
             document.querySelector(`#${product}`).style.display = "block";
 
-            document.querySelector("#billing_info_plan_name").innerText = product;
+            document.querySelector("#billing_info_plan_name").innerText = document.querySelector("#your_plan_account > div > h5").innerText;
             document.querySelector("#billing_info_plan_details").innerText = document.querySelector("#your_plan_account > div > div.tab-content-text-pricing-2").innerText
 
             document
