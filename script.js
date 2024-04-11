@@ -927,10 +927,13 @@ function fillInputFieldsFromUrlParams() {
     }
   });
 
+
   outputsArray.forEach((output, index) => {
-    document.querySelector(`#output_${index}`).style.display = "block";
-    document.querySelector(`#myOutputText_${index}`).innerHTML = output;
+    let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
+    newOutput.style.display = "block";
+    newOutput.innerHTML = output;
   });
+
 }
 
 const urlParams = new URLSearchParams(window.location.search);
