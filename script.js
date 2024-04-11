@@ -342,6 +342,8 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       document.getElementById("language").selectedIndex
     ].textContent;
 
+    document.querySelector("#output_lottie").style.display = "block";
+
   const myProductName = document.getElementById("product_name")
     ? document.getElementById("product_name").value
     : null;
@@ -544,6 +546,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   isNewFlag = true;
 
   reader.read().then(function processResult(result) {
+    document.querySelector("#output_lottie").style.display = "none";
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
     baseOutput.style.display = "block";
