@@ -83,10 +83,10 @@ function handleSignUp(e) {
       var errorCode = error.code;
       var errorMessage = error.message;
       // Display error message based on error code
-      if (errorCode === "auth/email-already-in-use") {
+      if (errorCode === "auth/email-already-exists") {
         window.showToast("Email is already in use");
-      } else if (errorCode === "auth/weak-password") {
-        window.showToast("Password is too weak");
+      } else if (errorCode === "auth/invalid-password") {
+        window.showToast("Your password must be at least 6 chracters");
       } else {
         // For other errors, log the error message
         console.error(errorMessage);
