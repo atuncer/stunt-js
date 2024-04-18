@@ -342,7 +342,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       document.getElementById("language").selectedIndex
     ].textContent;
 
-    document.querySelector("#output_lottie").style.display = "block";
+  document.querySelector("#output_lottie").style.display = "block";
 
   const myProductName = document.getElementById("product_name")
     ? document.getElementById("product_name").value
@@ -774,6 +774,19 @@ parentElement.addEventListener("click", function (event) {
         var errorMessage = error.message;
         var email = error.email;
         var credential = error.credential;
+
+        // Check the error code and display the appropriate message
+        if (
+          errorCode === "auth/invalid-email" ||
+          errorCode === "auth/user-not-found"
+        ) {
+          window.showToast("Can not find email");
+        } else if (errorCode === "auth/wrong-password") {
+          window.showToast("Password incorrect");
+        } else {
+          // Handle other errors if needed
+          console.error(errorMessage);
+        }
       });
   }
 
@@ -927,14 +940,12 @@ function fillInputFieldsFromUrlParams() {
     }
   });
 
-
   outputsArray.forEach((output, index) => {
     let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
     newOutput.style.display = "block";
     newOutput.innerHTML = output;
     document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
-
 }
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -1103,8 +1114,12 @@ async function myPlans(user) {
               .appendChild(document.querySelector(`#${product}`));
             document.querySelector(`#${product}`).style.display = "block";
 
-            document.querySelector("#billing_info_plan_name").innerText = document.querySelector("#your_plan_account > div > h5").innerText;
-            document.querySelector("#billing_info_plan_details").innerText = document.querySelector("#your_plan_account > div > div.tab-content-text-pricing-2").innerText
+            document.querySelector("#billing_info_plan_name").innerText =
+              document.querySelector("#your_plan_account > div > h5").innerText;
+            document.querySelector("#billing_info_plan_details").innerText =
+              document.querySelector(
+                "#your_plan_account > div > div.tab-content-text-pricing-2"
+              ).innerText;
 
             document
               .querySelector("#best_option_for_you")
