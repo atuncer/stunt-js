@@ -79,10 +79,18 @@ function handleSignUp(e) {
       console.log("User name updated successfully!");
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorMessage);
-      errorText.innerHTML = errorMessage;
+      // Handle sign-up errors
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // Display error message based on error code
+      if (errorCode === "auth/email-already-in-use") {
+        window.showToast("Email is already in use");
+      } else if (errorCode === "auth/weak-password") {
+        window.showToast("Password is too weak");
+      } else {
+        // For other errors, log the error message
+        console.error(errorMessage);
+      }
     });
 }
 
