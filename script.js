@@ -58,7 +58,6 @@ function handleSignUp(e) {
     .then((userCredential) => {
       const user = userCredential.user;
       console.log("User successfully created: " + user.email);
-
       // Send email verification
       user
         .sendEmailVerification()
@@ -79,18 +78,10 @@ function handleSignUp(e) {
       console.log("User name updated successfully!");
     })
     .catch((error) => {
-      // Handle sign-up errors
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // Display error message based on error code
-      if (errorCode === "auth/email-already-in-use") {
-        window.showToast("Email is already in use");
-      } else if (errorCode === "auth/invalid-password") {
-        window.showToast("Your password must be at least 6 chracters");
-      } else {
-        // For other errors, log the error message
-        console.error(errorMessage);
-      }
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage);
+      errorText.innerHTML = errorMessage;
     });
 }
 
