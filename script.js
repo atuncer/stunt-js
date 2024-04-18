@@ -117,11 +117,23 @@ function handleSignIn(e) {
       handleRedirect(user);
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      var errorText = document.getElementById("signin-error-message");
-      console.log(errorMessage);
-      errorText.innerHTML = errorMessage;
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      var email = error.email;
+      var credential = error.credential;
+
+      // Check the error code and display the appropriate message
+      if (
+        errorCode === "auth/invalid-email" ||
+        errorCode === "auth/user-not-found"
+      ) {
+        window.showToast("Can not find email");
+      } else if (errorCode === "auth/wrong-password") {
+        window.showToast("Password incorrect");
+      } else {
+        // Handle other errors if needed
+        console.error(errorMessage);
+      }
     });
 }
 
