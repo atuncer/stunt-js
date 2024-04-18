@@ -128,7 +128,10 @@ function handleSignIn(e) {
         errorCode === "auth/user-not-found"
       ) {
         window.showToast("Can not find email");
-      } else if (errorCode === "auth/wrong-password") {
+      } else if (
+        errorCode === "auth/wrong-password" ||
+        errorCode === "auth/internal-error"
+      ) {
         window.showToast("Password incorrect");
       } else {
         // Handle other errors if needed
