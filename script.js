@@ -616,20 +616,14 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         token + "";
     }
 
-    const middleContainers = document.querySelectorAll(
-      "section > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > aside > div"
-    );
-
-    middleContainers.forEach((container) => {
-      // For each middle container, find the text inside
-      const textInside = container.querySelector("div > div");
-
-      // Check if the text inside is empty or null
-      if (textInside && !textInside.textContent.trim()) {
-        // Remove the middle container
-        container.remove();
+    let i = 0;
+    while (document.querySelector(`#myOutputText_${i}`) !== null) {
+      textBoxText = document.querySelector(`#myOutputText_${i}`);
+      if (!textBoxText.textContent.trim()) {
+        document.querySelector(`#output_${i}`).remove();
       }
-    });
+      i++;
+    }
 
     return reader.read().then(processResult);
   });
@@ -640,6 +634,7 @@ function deepCopyResponseDiv(baseOutput) {
   newOutput.id = `output_${window.uids.length}`;
 
   newOutput.querySelector("#myOutputText_0").innerHTML = "";
+  newOutput.querySelector("#variantNo").innerText += `${window.uids.length}`;
   newOutput.querySelector(
     "#myOutputText_0"
   ).id = `myOutputText_${window.uids.length}`;
