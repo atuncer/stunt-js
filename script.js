@@ -585,7 +585,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
     if (token.includes(endToken)) {
       const partsWithUuid = token.match(
-        /(.*?)\s*---END---\s*([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\s*(.*)/
+        /([\s\S]*)\s*---END---\s*([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})\s*(.*)/
       );
 
       if (partsWithUuid) {
