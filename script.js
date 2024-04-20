@@ -676,7 +676,7 @@ parentElement.addEventListener("click", function (event) {
   if (submitButton) {
     console.log("Submit button clicked!");
     sendMessage();
-    removeEmptyOutputs();
+    //removeEmptyOutputs();
   }
 
   const matchedElement = hasMatchingIdOrParentWithId("copy", event.target);
@@ -775,7 +775,7 @@ parentElement.addEventListener("click", function (event) {
       (myUuid = window.uids[0]),
       (isNew = false)
     );
-    removeEmptyOutputs();
+    //removeEmptyOutputs();
   }
 
   const matchedElement5 = hasMatchingIdOrParent("google", event.target);
