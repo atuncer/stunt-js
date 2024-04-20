@@ -616,17 +616,19 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         token + "";
     }
 
-    let i = 0;
-    while (document.querySelector(`#myOutputText_${i}`) !== null) {
-      textBoxText = document.querySelector(`#myOutputText_${i}`);
-      if (!textBoxText.textContent.trim()) {
-        document.querySelector(`#output_${i}`).remove();
-      }
-      i++;
-    }
-
     return reader.read().then(processResult);
   });
+}
+
+function removeEmptyOutputs() {
+  let i = 0;
+  while (document.querySelector(`#myOutputText_${i}`) !== null) {
+    textBoxText = document.querySelector(`#myOutputText_${i}`);
+    if (!textBoxText.textContent.trim()) {
+      document.querySelector(`#output_${i}`).remove();
+    }
+    i++;
+  }
 }
 
 function deepCopyResponseDiv(baseOutput) {
@@ -674,6 +676,7 @@ parentElement.addEventListener("click", function (event) {
   if (submitButton) {
     console.log("Submit button clicked!");
     sendMessage();
+    removeEmptyOutputs();
   }
 
   const matchedElement = hasMatchingIdOrParentWithId("copy", event.target);
@@ -772,6 +775,7 @@ parentElement.addEventListener("click", function (event) {
       (myUuid = window.uids[0]),
       (isNew = false)
     );
+    removeEmptyOutputs();
   }
 
   const matchedElement5 = hasMatchingIdOrParent("google", event.target);
