@@ -592,8 +592,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         token = partsWithUuid[1];
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
-        console.log("Token left: ", token_left);
-        console.log("Token: ", token);
+        console.log(partsWithUuid);
       }
 
       if (isNew) {
