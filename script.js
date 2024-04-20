@@ -768,7 +768,6 @@ parentElement.addEventListener("click", function (event) {
   }
 
   const matchedElement4 = hasMatchingIdOrParent("rewriteButton", event.target);
-
   if (matchedElement4) {
     sendMessage(
       (rewritePrompt = document.querySelector("#rewriteText").value),
