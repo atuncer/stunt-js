@@ -590,15 +590,16 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
 
       if (partsWithUuid) {
         token = partsWithUuid[1];
+
+        document
+        .querySelector(`#output_${window.uids.length}`)
+        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+        token + "";
+
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
         console.log(partsWithUuid);
       }
-
-      document
-        .querySelector(`#output_${window.uids.length}`)
-        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-        token + "";
 
       if (isNew) {
         let newOutput = deepCopyResponseDiv(baseOutput);
