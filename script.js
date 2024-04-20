@@ -636,7 +636,8 @@ function deepCopyResponseDiv(baseOutput) {
   newOutput.id = `output_${window.uids.length}`;
 
   newOutput.querySelector("#myOutputText_0").innerHTML = "";
-  newOutput.querySelector("#variantNo").innerText += `${window.uids.length}`;
+  newOutput.querySelector("#variantNo").innerText = `Variant - ${window.uids.length}`;
+
   newOutput.querySelector(
     "#myOutputText_0"
   ).id = `myOutputText_${window.uids.length}`;
