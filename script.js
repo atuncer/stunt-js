@@ -595,6 +595,11 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         console.log(partsWithUuid);
       }
 
+      document
+        .querySelector(`#output_${window.uids.length}`)
+        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+        token + "";
+
       if (isNew) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
@@ -603,12 +608,12 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
           `#myOutputText_${window.uids.length}`
         ).innerHTML = token_left ? token_left : "";
       }
+    } else {
+      document
+        .querySelector(`#output_${window.uids.length}`)
+        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+        token + "";
     }
-
-    document
-      .querySelector(`#output_${window.uids.length}`)
-      .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-      token + "";
 
     const middleContainers = document.querySelectorAll(
       "section > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > aside > div"
