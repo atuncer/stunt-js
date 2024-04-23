@@ -994,15 +994,11 @@ window.showToast = function (text) {
   toasts.push(toastClone);
 
   setTimeout(() => {
-    toastClone.style.opacity = "0";
-    setTimeout(() => {
-      document.body.removeChild(toastClone);
-      toasts.splice(toasts.indexOf(toastClone), 1);
-
-      toasts.forEach((toast, index) => {
-        toast.style.top = `${index * offsetIncrement}px`;
-      });
-    }, 500);
+    document.body.removeChild(toastClone);
+    toasts.splice(toasts.indexOf(toastClone), 1);
+    toasts.forEach((toast, index) => {
+      toast.style.top = `${index * offsetIncrement}px`;
+    });
   }, 3000);
 };
 
