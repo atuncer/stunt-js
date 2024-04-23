@@ -263,11 +263,11 @@ function handleStripeHref() {
       );
     });
 
-    if (window.location.href.includes("manage-your-account")) {
-      document.querySelector(
-        "#change_plan"
-      ).href += `?prefilled_email=${encodeURIComponent(window.user.email)}`;
-    }
+  }
+  else if (window.location.href.includes("manage-your-account")) {
+    document.querySelector(
+      "#change_plan"
+    ).href += `?prefilled_email=${encodeURIComponent(window.user.email)}`;
   }
 }
 
@@ -592,9 +592,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         token = partsWithUuid[1];
 
         document
-        .querySelector(`#output_${window.uids.length}`)
-        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-        token + "";
+          .querySelector(`#output_${window.uids.length}`)
+          .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+          token + "";
 
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
@@ -611,18 +611,18 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       }
     } else {
       try {
-      document
-        .querySelector(`#output_${window.uids.length}`)
-        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-        token + "";
+        document
+          .querySelector(`#output_${window.uids.length}`)
+          .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+          token + "";
       } catch (e) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
         baseOutput.parentNode.appendChild(newOutput);
         document
-        .querySelector(`#output_${window.uids.length}`)
-        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-        token + "";
+          .querySelector(`#output_${window.uids.length}`)
+          .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+          token + "";
       }
     }
 
@@ -646,7 +646,9 @@ function deepCopyResponseDiv(baseOutput) {
   newOutput.id = `output_${window.uids.length}`;
 
   newOutput.querySelector("#myOutputText_0").innerHTML = "";
-  newOutput.querySelector("#variantNo").innerText = `Variant - ${window.uids.length}`;
+  newOutput.querySelector(
+    "#variantNo"
+  ).innerText = `Variant - ${window.uids.length}`;
 
   newOutput.querySelector(
     "#myOutputText_0"
@@ -1004,7 +1006,6 @@ window.showToast = function (text) {
   toasts.push(toastClone);
 
   toastClone.style.transition = "opacity 0.5s ease";
-
 
   setTimeout(() => {
     toastClone.style.opacity = "0";
