@@ -990,7 +990,7 @@ window.showToast = function (text) {
 
   const topPosition = toasts.length * offsetIncrement;
   toastClone.style.top = `${topPosition}px`;
-  document.body.appendChild(toastClone);
+  document.body.insertBefore(toastClone, originalToast);
   toasts.push(toastClone);
 
   setTimeout(() => {
