@@ -994,7 +994,7 @@ window.showToast = function (text) {
   toasts.push(toastClone);
 
   setTimeout(() => {
-    document.body.removeChild(toastClone);
+    originalToast.parentNode.removeChild(toastClone);
     toasts.splice(toasts.indexOf(toastClone), 1);
     toasts.forEach((toast, index) => {
       toast.style.top = `${index * offsetIncrement}px`;
