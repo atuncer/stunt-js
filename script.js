@@ -993,6 +993,9 @@ window.showToast = function (text) {
   originalToast.parentNode.prepend(toastClone);
   toasts.push(toastClone);
 
+  toastClone.style.transition = "opacity 0.5s ease";
+
+
   setTimeout(() => {
     toastClone.style.opacity = "0";
     setTimeout(() => {
