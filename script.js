@@ -610,14 +610,20 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         ).innerHTML = token_left ? token_left : "";
       }
     } else {
-      console.log(token)
-      let newOutput = deepCopyResponseDiv(baseOutput);
-      newOutput.style.display = "block";
-      baseOutput.parentNode.appendChild(newOutput);
+      try {
       document
         .querySelector(`#output_${window.uids.length}`)
         .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
         token + "";
+      } catch (e) {
+        let newOutput = deepCopyResponseDiv(baseOutput);
+        newOutput.style.display = "block";
+        baseOutput.parentNode.appendChild(newOutput);
+        document
+        .querySelector(`#output_${window.uids.length}`)
+        .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+        token + "";
+      }
     }
 
     return reader.read().then(processResult);
