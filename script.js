@@ -601,7 +601,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         console.log(partsWithUuid);
       }
 
-      if (isNew) {
+      if (token_left.length > 0) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
         baseOutput.parentNode.appendChild(newOutput);
