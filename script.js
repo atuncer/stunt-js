@@ -52,7 +52,12 @@ function handleSignUp(e) {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
   const user_name = document.getElementById("sign-up-name").value;
+  const checkBox = document.querySelector("#checkbox");
 
+  if (!checkBox.checked) {
+    window.showToast("Please accept the Privacy Policy and Terms of Service.");
+    return;
+  }
   auth
     .createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
