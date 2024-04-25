@@ -23,7 +23,7 @@ let myGlobalUser;
 
 let signUpForm = document.getElementById("wf-form-signup-form");
 let signInForm = document.getElementById("wf-form-signin-form");
-let signOutButton = document.getElementById("signout-button");
+let signOutButton = document.getElementById("sign-out-button");
 let signInButton = document.getElementById("sign-in-button");
 let signUpButton = document.getElementById("sign-up-button");
 
@@ -130,14 +130,11 @@ function handleSignIn(e) {
       // Check the error code and display the appropriate message
       if (
         errorCode === "auth/invalid-email" ||
-        errorCode === "auth/user-not-found"
-      ) {
-        window.showToast("Can not find email");
-      } else if (
+        errorCode === "auth/user-not-found" ||
         errorCode === "auth/wrong-password" ||
         errorCode === "auth/internal-error"
       ) {
-        window.showToast("Password incorrect");
+        window.showToast("Username or password is incorrect");
       } else {
         // Handle other errors if needed
         console.error(errorMessage);
@@ -262,9 +259,7 @@ function handleStripeHref() {
         }
       );
     });
-
-  }
-  else if (window.location.href.includes("manage-your-account")) {
+  } else if (window.location.href.includes("manage-your-account")) {
     document.querySelector(
       "#change_plan"
     ).href += `?prefilled_email=${encodeURIComponent(window.user.email)}`;
