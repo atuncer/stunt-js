@@ -944,9 +944,15 @@ window.fetchData = async function (user) {
             `output${index}=${encodeURIComponent(matcher["response"])}`
         )
         .join("&");
+        let outputMatchersUuids = response[rowId - 1]["output_matchers"]
+        .map(
+          (matcher, index) =>
+            `uuid${index}=${encodeURIComponent(matcher["uuid"])}`
+        )
+        .join("&");
 
-      if (queryParams.length > 0 && outputMatchersParams.length > 0) {
-        queryParams += "&" + outputMatchersParams;
+      if (queryParams.length > 0 && outputMatchersParams.length > 0 && outputMatchersUuids.length > 0) {
+        queryParams += "&" + outputMatchersParams + "&" + outputMatchersUuids;
       } else if (outputMatchersParams.length > 0) {
         queryParams = outputMatchersParams;
       }
@@ -987,6 +993,8 @@ function fillInputFieldsFromUrlParams() {
   urlParams.forEach((value, key) => {
     if (key.includes("output")) {
       outputsArray.push(value);
+    } else if (key.includes("uuid")) {
+      window.uids.push(value);
     }
   });
 
