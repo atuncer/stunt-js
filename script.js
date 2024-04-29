@@ -993,8 +993,6 @@ function fillInputFieldsFromUrlParams() {
   urlParams.forEach((value, key) => {
     if (key.includes("output")) {
       outputsArray.push(value);
-    } else if (key.includes("uuid")) {
-      window.uids.push(value);
     }
   });
 
