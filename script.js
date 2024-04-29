@@ -688,7 +688,15 @@ parentElement.addEventListener("click", function (event) {
   const submitButton = event.target.id === "submit_button";
   if (submitButton) {
     console.log("Submit button clicked!");
-    sendMessage();
+    if (window.uids.length > 0) {
+      sendMessage(
+        (rewritePrompt = ""),
+        (myUuid = window.uids[0]),
+        (isNew = false)
+      );
+    } else {
+      sendMessage();
+    }
     //removeEmptyOutputs();
   }
 
@@ -883,7 +891,6 @@ window.fetchData = async function (user) {
       item["log_query_fields"] !== null &&
       item["log_query_fields"].length > 0
     ) {
-
       // create a json from item["log_query_fields"] by splitting each item by '=='
       let fields_json = item["log_query_fields"].reduce((acc, curr) => {
         let [key, value] = curr.split("==");
@@ -891,11 +898,11 @@ window.fetchData = async function (user) {
         return acc;
       }, {});
 
-
       document.querySelector(`#row${index + 1} #name`).innerHTML =
-      fields_json['product_name'];
+        fields_json["product_name"];
       if (document.querySelector(`#row${index + 1} #type`)) {
-        document.querySelector(`#row${index + 1} #type`).innerHTML = item['template'];
+        document.querySelector(`#row${index + 1} #type`).innerHTML =
+          item["template"];
       }
       const timestamp = item["log_last_update"];
       const readableTimestamp = `${new Date(timestamp).getDate()} ${new Date(
@@ -957,13 +964,11 @@ function fillInputFieldsFromUrlParams() {
 
   urlParams.forEach((value, key) => {
     if (key.includes("param")) {
-
       let node = document.querySelector(`#${value.split("==")[0]}`);
-      
+
       if (node.type === "text") {
         node.value = value.split("==")[1];
       } else {
-
         let optionExists = Array.from(node.options).some(
           (option) => option.value === value
         );
@@ -984,7 +989,6 @@ function fillInputFieldsFromUrlParams() {
       outputsArray.push(value);
     }
   });
-
 
   outputsArray.forEach((output, index) => {
     let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
