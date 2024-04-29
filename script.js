@@ -1006,7 +1006,16 @@ function fillInputFieldsFromUrlParams() {
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
     document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
+
+  urlParams.forEach((value, key) => {
+    if (key.includes("uuid")) {
+      window.uids.push(value);
+    }
+  });
+
 }
+
+
 
 const urlParams = new URLSearchParams(window.location.search);
 if (Array.from(urlParams.entries()).length > 0) {
