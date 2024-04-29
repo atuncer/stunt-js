@@ -949,34 +949,34 @@ function fillInputFieldsFromUrlParams() {
 
   urlParams.forEach((value, key) => {
     if (key.includes("param")) {
-      paramsArray.push(value);
+
+      let node = document.querySelector(`${value.split("==")[0]}`);
+      
+      if (node.type === "text") {
+        node.value = value.split("==")[1];
+      } else {
+        
+        let optionExists = Array.from(node.options).some(
+          (option) => option.value === value
+        );
+
+        if (!optionExists) {
+          let option = document.createElement("option");
+          option.value = value;
+          option.text = value;
+          node.appendChild(option);
+        }
+        node.value = value;
+      }
     }
   });
+
   urlParams.forEach((value, key) => {
     if (key.includes("output")) {
       outputsArray.push(value);
     }
   });
 
-  document.querySelectorAll(".w-input, .w-select").forEach((input, index) => {
-    if (index < paramsArray.length) {
-      const value = paramsArray[index];
-      if (input.type === "text") {
-        input.value = value;
-      } else if (input.tagName === "SELECT") {
-        const optionExists = Array.from(input.options).some(
-          (option) => option.value === value
-        );
-        if (!optionExists) {
-          const option = document.createElement("option");
-          option.value = value;
-          option.text = value;
-          input.appendChild(option);
-        }
-        input.value = value;
-      }
-    }
-  });
 
   outputsArray.forEach((output, index) => {
     let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
