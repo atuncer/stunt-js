@@ -981,7 +981,9 @@ function fillInputFieldsFromUrlParams() {
   outputsArray.forEach((output, index) => {
     let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
     newOutput.style.display = "block";
-    newOutput.innerHTML = output;
+    newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
+    newOutput.id = `output_${index + 1}`;
+    newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
     document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
 }
