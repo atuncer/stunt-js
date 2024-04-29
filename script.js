@@ -895,7 +895,7 @@ window.fetchData = async function (user) {
       document.querySelector(`#row${index + 1} #name`).innerHTML =
       fields_json['product_name'];
       if (document.querySelector(`#row${index + 1} #type`)) {
-        document.querySelector(`#row${index + 1} #type`).innerHTML = fields_json['template'];
+        document.querySelector(`#row${index + 1} #type`).innerHTML = item['template'];
       }
       const timestamp = item["log_last_update"];
       const readableTimestamp = `${new Date(timestamp).getDate()} ${new Date(
@@ -958,7 +958,7 @@ function fillInputFieldsFromUrlParams() {
   urlParams.forEach((value, key) => {
     if (key.includes("param")) {
 
-      let node = document.querySelector(`${value.split("==")[0]}`);
+      let node = document.querySelector(`#${value.split("==")[0]}`);
       
       if (node.type === "text") {
         node.value = value.split("==")[1];
