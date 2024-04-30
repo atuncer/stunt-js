@@ -604,7 +604,10 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       if (token_left.length > 0) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
-        baseOutput.parentNode.appendChild(newOutput);
+        baseOutput.parentNode.insertBefore(
+          newOutput,
+          baseOutput.parentNode.firstChild
+        );
         newOutput.querySelector(
           `#myOutputText_${window.uids.length}`
         ).innerHTML = token_left ? token_left : "";
@@ -618,7 +621,10 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       } catch (e) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
-        baseOutput.parentNode.appendChild(newOutput);
+        baseOutput.parentNode.insertBefore(
+          newOutput,
+          baseOutput.parentNode.firstChild
+        );
         document
           .querySelector(`#output_${window.uids.length}`)
           .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
