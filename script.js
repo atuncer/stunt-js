@@ -1012,7 +1012,7 @@ function fillInputFieldsFromUrlParams() {
   });
 
   outputsArray.forEach((output, index) => {
-    let newOutput = any;
+    let newOutput = null;
     if (document.querySelector("#output_0").style.display === "none") {
       newOutput = document.querySelector("#output_0");
     } else {
