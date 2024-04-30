@@ -591,10 +591,23 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       if (partsWithUuid) {
         token = partsWithUuid[1];
 
+        try {
         document
           .querySelector(`#output_${window.uids.length}`)
           .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
           token + "";
+        } catch (e) {
+          let newOutput = deepCopyResponseDiv(baseOutput);
+          newOutput.style.display = "block";
+          baseOutput.parentNode.insertBefore(
+            newOutput,
+            baseOutput.parentNode.firstChild
+          );
+          document
+            .querySelector(`#output_${window.uids.length}`)
+            .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+            token + "";
+        }
 
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
