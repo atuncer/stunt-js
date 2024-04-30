@@ -631,7 +631,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
           token + "";
       }
     }
-
+    document
+      .querySelector("#output_lottie")
+      .parentNode.prepend(document.querySelector("#output_lottie"));
     return reader.read().then(processResult);
   });
 }
@@ -950,14 +952,18 @@ window.fetchData = async function (user) {
             `output${index}=${encodeURIComponent(matcher["response"])}`
         )
         .join("&");
-        let outputMatchersUuids = response[rowId - 1]["output_matchers"]
+      let outputMatchersUuids = response[rowId - 1]["output_matchers"]
         .map(
           (matcher, index) =>
             `uuid${index}=${encodeURIComponent(matcher["uuid"])}`
         )
         .join("&");
 
-      if (queryParams.length > 0 && outputMatchersParams.length > 0 && outputMatchersUuids.length > 0) {
+      if (
+        queryParams.length > 0 &&
+        outputMatchersParams.length > 0 &&
+        outputMatchersUuids.length > 0
+      ) {
         queryParams += "&" + outputMatchersParams + "&" + outputMatchersUuids;
       } else if (outputMatchersParams.length > 0) {
         queryParams = outputMatchersParams;
@@ -996,18 +1002,28 @@ function fillInputFieldsFromUrlParams() {
     }
   });
 
+  let outputCount = 0;
+
   urlParams.forEach((value, key) => {
     if (key.includes("output")) {
       outputsArray.push(value);
+      outputCount++;
     }
   });
 
   outputsArray.forEach((output, index) => {
-    let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
+    let newOutput = any;
+    if (document.querySelector("#output_0").style.display === "none") {
+      newOutput = document.querySelector("#output_0");
+    } else {
+      newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
+    }
     newOutput.style.display = "block";
     newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
     newOutput.id = `output_${index + 1}`;
-    newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
+    newOutput.querySelector("#variantNo").innerText = `Variant - ${
+      outputCount - index
+    }`;
     document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
 
@@ -1016,10 +1032,7 @@ function fillInputFieldsFromUrlParams() {
       window.uids.push(value);
     }
   });
-
 }
-
-
 
 const urlParams = new URLSearchParams(window.location.search);
 if (Array.from(urlParams.entries()).length > 0) {
