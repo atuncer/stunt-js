@@ -572,7 +572,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     baseOutput.style.display = "block";
 
     let token = decoder.decode(result.value);
-
+ 
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
@@ -768,7 +768,7 @@ parentElement.addEventListener("click", function (event) {
     const num = matchedElement2.id.match(/\d+$/)[0];
     const uid = window.uids[num];
 
-    const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=1`;
+    const apiUrl = `${API_URL}/api/v1/like?uuid=${uid}&isliked=1`;
 
     window.showToast("Liked!");
 
