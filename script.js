@@ -53,6 +53,7 @@ function handleSignUp(e) {
   const password = document.getElementById("signup-password").value;
   const user_name = document.getElementById("sign-up-name").value;
   const checkBox = document.querySelector("#checkbox");
+  const checkBoxDemo = document.querySelector("#checkbox-demo");
 
   if (!checkBox.checked) {
     window.showToast("Please accept the Privacy Policy and Terms of Service.");
@@ -96,6 +97,9 @@ function handleSignUp(e) {
         console.error(errorMessage);
       }
     }).then(() => {
+      if (checkBoxDemo.checked) {
+        fetch(`${API_URL}/api/v1/book_demo/${email}`)
+      }
       window.location.href = "confirmed-form";
     });
 }
