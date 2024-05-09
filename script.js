@@ -97,11 +97,11 @@ function handleSignUp(e) {
 }
 
 async function handleRedirect(user) {
-  /*if (!user.emailVerified) {
+  if (!user.emailVerified) {
     console.log("Email not verified");
-    window.location.href = "email-sent";
+    window.location.href = "confirmed-form";
     return;
-  }*/
+  }
   const id_token = await user.getIdToken();
   fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
     if ([200, 207].includes(response.status)) {
