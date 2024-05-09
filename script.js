@@ -54,6 +54,7 @@ function handleSignUp(e) {
   const user_name = document.getElementById("sign-up-name").value;
   const checkBox = document.querySelector("#checkbox");
   const checkBoxDemo = document.querySelector("#checkbox-demo");
+  let errorOccurred = false;
 
   if (!checkBox.checked) {
     window.showToast("Please accept the Privacy Policy and Terms of Service.");
@@ -86,6 +87,7 @@ function handleSignUp(e) {
       console.log("User name updated successfully!");
     })
     .catch((error) => {
+      errorOccurred = true;
       var errorCode = error.code;
       var errorMessage = error.message;
       if (errorCode === "auth/email-already-in-use") {
@@ -97,6 +99,9 @@ function handleSignUp(e) {
         console.error(errorMessage);
       }
     }).then(() => {
+      if (errorOccurred) {
+        return;
+      }
       if (checkBoxDemo.checked) {
         fetch(`${API_URL}/api/v1/book_demo/${email}`)
       }
