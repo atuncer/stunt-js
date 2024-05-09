@@ -64,7 +64,7 @@ function handleSignUp(e) {
       const user = userCredential.user;
       console.log("User successfully created: " + user.email);
       // Send email verification
-      /*      user
+      user
         .sendEmailVerification()
         .then(function () {
           // Email sent.
@@ -74,7 +74,7 @@ function handleSignUp(e) {
           // An error happened.
           console.error("Error sending email verification:", error);
         });
-*/
+
       return user.updateProfile({
         displayName: user_name,
       });
@@ -512,12 +512,12 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      product_name: myProductName,
-      target_audience: myTargetAudience,
+      productName: myProductName,
+      targetAudience: myTargetAudience,
       highlights: myHighlights,
-      tone_of_speaking: myToneofSpeaking,
-      language: myOutputLanguage,
-      campaing_target: myCampaignTarget,
+      toneofSpeaking: myToneofSpeaking,
+      outputLanguage: myOutputLanguage,
+      campaignTarget: myCampaignTarget,
       templateName: templateName,
       recipient_name: my_recipient_name,
       company_name: my_company_name,
@@ -591,23 +591,10 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       if (partsWithUuid) {
         token = partsWithUuid[1];
 
-        try {
-          document
-            .querySelector(`#output_${window.uids.length}`)
-            .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-            token + "";
-        } catch (e) {
-          let newOutput = deepCopyResponseDiv(baseOutput);
-          newOutput.style.display = "block";
-          baseOutput.parentNode.insertBefore(
-            newOutput,
-            baseOutput.parentNode.firstChild
-          );
-          document
-            .querySelector(`#output_${window.uids.length}`)
-            .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-            token + "";
-        }
+        document
+          .querySelector(`#output_${window.uids.length}`)
+          .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+          token + "";
 
         window.uids.push(partsWithUuid[2]);
         token_left = partsWithUuid[3];
@@ -617,10 +604,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       if (token_left.length > 0) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
-        baseOutput.parentNode.insertBefore(
-          newOutput,
-          baseOutput.parentNode.firstChild
-        );
+        baseOutput.parentNode.appendChild(newOutput);
         newOutput.querySelector(
           `#myOutputText_${window.uids.length}`
         ).innerHTML = token_left ? token_left : "";
@@ -634,19 +618,14 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       } catch (e) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
-        baseOutput.parentNode.insertBefore(
-          newOutput,
-          baseOutput.parentNode.firstChild
-        );
+        baseOutput.parentNode.appendChild(newOutput);
         document
           .querySelector(`#output_${window.uids.length}`)
           .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
           token + "";
       }
     }
-    document
-      .querySelector("#output_lottie")
-      .parentNode.prepend(document.querySelector("#output_lottie"));
+
     return reader.read().then(processResult);
   });
 }
@@ -709,15 +688,7 @@ parentElement.addEventListener("click", function (event) {
   const submitButton = event.target.id === "submit_button";
   if (submitButton) {
     console.log("Submit button clicked!");
-    if (window.uids.length > 0) {
-      sendMessage(
-        (rewritePrompt = ""),
-        (myUuid = window.uids[0]),
-        (isNew = false)
-      );
-    } else {
-      sendMessage();
-    }
+    sendMessage();
     //removeEmptyOutputs();
   }
 
@@ -768,7 +739,7 @@ parentElement.addEventListener("click", function (event) {
     const num = matchedElement2.id.match(/\d+$/)[0];
     const uid = window.uids[num];
 
-    const apiUrl = `${API_URL}/api/v1/like?uuid=${uid}&isliked=1`;
+    const apiUrl = `${API_URL}/api/v1/like/uuid=${uid}&isliked=1`;
 
     window.showToast("Liked!");
 
@@ -912,18 +883,11 @@ window.fetchData = async function (user) {
       item["log_query_fields"] !== null &&
       item["log_query_fields"].length > 0
     ) {
-      // create a json from item["log_query_fields"] by splitting each item by '=='
-      let fields_json = item["log_query_fields"].reduce((acc, curr) => {
-        let [key, value] = curr.split("==");
-        acc[key] = value;
-        return acc;
-      }, {});
-
       document.querySelector(`#row${index + 1} #name`).innerHTML =
-        fields_json["product_name"];
+        item["log_query_fields"][0];
       if (document.querySelector(`#row${index + 1} #type`)) {
         document.querySelector(`#row${index + 1} #type`).innerHTML =
-          item["template"];
+          item["log_query_fields"][item["log_query_fields"].length - 1];
       }
       const timestamp = item["log_last_update"];
       const readableTimestamp = `${new Date(timestamp).getDate()} ${new Date(
@@ -965,19 +929,9 @@ window.fetchData = async function (user) {
             `output${index}=${encodeURIComponent(matcher["response"])}`
         )
         .join("&");
-      let outputMatchersUuids = response[rowId - 1]["output_matchers"]
-        .map(
-          (matcher, index) =>
-            `uuid${index}=${encodeURIComponent(matcher["uuid"])}`
-        )
-        .join("&");
 
-      if (
-        queryParams.length > 0 &&
-        outputMatchersParams.length > 0 &&
-        outputMatchersUuids.length > 0
-      ) {
-        queryParams += "&" + outputMatchersParams + "&" + outputMatchersUuids;
+      if (queryParams.length > 0 && outputMatchersParams.length > 0) {
+        queryParams += "&" + outputMatchersParams;
       } else if (outputMatchersParams.length > 0) {
         queryParams = outputMatchersParams;
       }
@@ -995,55 +949,40 @@ function fillInputFieldsFromUrlParams() {
 
   urlParams.forEach((value, key) => {
     if (key.includes("param")) {
-      let node = document.querySelector(`#${value.split("==")[0]}`);
+      paramsArray.push(value);
+    }
+  });
+  urlParams.forEach((value, key) => {
+    if (key.includes("output")) {
+      outputsArray.push(value);
+    }
+  });
 
-      if (node.type === "text") {
-        node.value = value.split("==")[1];
-      } else {
-        let optionExists = Array.from(node.options).some(
+  document.querySelectorAll(".w-input, .w-select").forEach((input, index) => {
+    if (index < paramsArray.length) {
+      const value = paramsArray[index];
+      if (input.type === "text") {
+        input.value = value;
+      } else if (input.tagName === "SELECT") {
+        const optionExists = Array.from(input.options).some(
           (option) => option.value === value
         );
-
         if (!optionExists) {
-          let option = document.createElement("option");
+          const option = document.createElement("option");
           option.value = value;
           option.text = value;
-          node.appendChild(option);
+          input.appendChild(option);
         }
-        node.value = value;
+        input.value = value;
       }
     }
   });
 
-  let outputCount = 0;
-
-  urlParams.forEach((value, key) => {
-    if (key.includes("output")) {
-      outputsArray.push(value);
-      outputCount++;
-    }
-  });
-
   outputsArray.forEach((output, index) => {
-    let newOutput = null;
-    if (document.querySelector("#output_0").style.display === "none") {
-      newOutput = document.querySelector("#output_0");
-    } else {
-      newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
-    }
+    let newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
     newOutput.style.display = "block";
-    newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
-    newOutput.id = `output_${index + 1}`;
-    newOutput.querySelector("#variantNo").innerText = `Variant - ${
-      outputCount - index
-    }`;
+    newOutput.innerHTML = output;
     document.querySelector("#output_0").parentNode.appendChild(newOutput);
-  });
-
-  urlParams.forEach((value, key) => {
-    if (key.includes("uuid")) {
-      window.uids.push(value);
-    }
   });
 }
 
