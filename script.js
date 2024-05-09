@@ -64,7 +64,7 @@ function handleSignUp(e) {
       const user = userCredential.user;
       console.log("User successfully created: " + user.email);
       // Send email verification
-      user
+      /*      user
         .sendEmailVerification()
         .then(function () {
           // Email sent.
@@ -74,7 +74,7 @@ function handleSignUp(e) {
           // An error happened.
           console.error("Error sending email verification:", error);
         });
-
+*/
       return user.updateProfile({
         displayName: user_name,
       });
@@ -97,11 +97,11 @@ function handleSignUp(e) {
 }
 
 async function handleRedirect(user) {
-  if (!user.emailVerified) {
+  /*if (!user.emailVerified) {
     console.log("Email not verified");
     window.location.href = "email-sent";
     return;
-  }
+  }*/
   const id_token = await user.getIdToken();
   fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
     if ([200, 207].includes(response.status)) {
@@ -572,7 +572,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     baseOutput.style.display = "block";
 
     let token = decoder.decode(result.value);
- 
+
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
@@ -592,10 +592,10 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         token = partsWithUuid[1];
 
         try {
-        document
-          .querySelector(`#output_${window.uids.length}`)
-          .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
-          token + "";
+          document
+            .querySelector(`#output_${window.uids.length}`)
+            .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
+            token + "";
         } catch (e) {
           let newOutput = deepCopyResponseDiv(baseOutput);
           newOutput.style.display = "block";
