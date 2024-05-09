@@ -64,6 +64,7 @@ function handleSignUp(e) {
       const user = userCredential.user;
       console.log("User successfully created: " + user.email);
       // Send email verification
+      /*
       user
         .sendEmailVerification()
         .then(function () {
@@ -74,6 +75,7 @@ function handleSignUp(e) {
           // An error happened.
           console.error("Error sending email verification:", error);
         });
+        */
 
       return user.updateProfile({
         displayName: user_name,
@@ -93,6 +95,8 @@ function handleSignUp(e) {
         // Handle other errors if needed
         console.error(errorMessage);
       }
+    }).then(() => {
+      window.location.href = "confirmed-form";
     });
 }
 
