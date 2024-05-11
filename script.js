@@ -106,7 +106,7 @@ function handleSignUp(e) {
       if (checkBoxDemo.checked) {
         fetch(`${API_URL}/api/v1/book_demo/${email}`);
       }
-      window.location.href = "confirmed-form";
+      window.location.href = "email-sent";
     });
 }
 
