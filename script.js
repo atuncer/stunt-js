@@ -98,12 +98,13 @@ function handleSignUp(e) {
         // Handle other errors if needed
         console.error(errorMessage);
       }
-    }).then(() => {
+    })
+    .then(() => {
       if (errorOccurred) {
         return;
       }
       if (checkBoxDemo.checked) {
-        fetch(`${API_URL}/api/v1/book_demo/${email}`)
+        fetch(`${API_URL}/api/v1/book_demo/${email}`);
       }
       window.location.href = "confirmed-form";
     });
@@ -1204,4 +1205,30 @@ if (window.location.href.includes("email-sent")) {
           });
       });
   });
+}
+
+if (window.location.href.includes("confirmed")) {
+  const params = new URLSearchParams(window.location.search);
+  const mode = params.get("mode");
+  const actionCode = params.get("oobCode");
+
+  // Handle the action from the email
+  if (mode === "verifyEmail" && actionCode) {
+    firebase
+      .auth()
+      .applyActionCode(actionCode)
+      .then(function (response) {
+        // Email verified successfully!
+        document.getElementById("status").textContent =
+          "Email address has been successfully verified.";
+      })
+      .catch(function (error) {
+        // Handle or display error
+        document.getElementById("status").textContent =
+          "Error verifying email: " + error.message;
+      });
+  } else {
+    document.getElementById("status").textContent =
+      "Invalid request. Please check the link or contact support if the issue persists.";
+  }
 }
