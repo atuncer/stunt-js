@@ -113,7 +113,7 @@ function handleSignUp(e) {
 async function handleRedirect(user) {
   if (!user.emailVerified) {
     console.log("Email not verified");
-    window.location.href = "confirmed-form";
+    window.location.href = "email-sent";
     return;
   }
   const id_token = await user.getIdToken();
