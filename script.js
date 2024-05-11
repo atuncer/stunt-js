@@ -66,7 +66,6 @@ function handleSignUp(e) {
       const user = userCredential.user;
       console.log("User successfully created: " + user.email);
       // Send email verification
-      /*
       user
         .sendEmailVerification()
         .then(function () {
@@ -77,7 +76,6 @@ function handleSignUp(e) {
           // An error happened.
           console.error("Error sending email verification:", error);
         });
-        */
 
       return user.updateProfile({
         displayName: user_name,
@@ -1206,8 +1204,9 @@ if (window.location.href.includes("email-sent")) {
       });
   });
 }
+let url = new URL(window.location.href);
 
-if (window.location.href.includes("confirmed")) {
+if (url.pathname === "/confirmed") {
   const params = new URLSearchParams(window.location.search);
   const mode = params.get("mode");
   const actionCode = params.get("oobCode");
