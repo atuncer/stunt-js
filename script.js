@@ -512,6 +512,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const my_contact = document.getElementById("contact")
     ? document.getElementById("contact").value
     : null;
+  const my_sender_name = document.getElementById("sender_name")
+  ? document.getElementById("sender_name").value
+  : null;
 
   const element = document.querySelector(".text-516");
   const userToken = await getUserIdToken();
@@ -566,6 +569,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       company_industry: my_company_industry,
       quotes: my_quotes,
       contact: my_contact,
+      sender_name: my_sender_name,
       rewritePrompt: rewritePrompt,
       UUID: myUuid,
       userToken: userToken,
