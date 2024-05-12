@@ -528,7 +528,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       targetAudience: myTargetAudience,
       highlights: myHighlights,
       toneofSpeaking: myToneofSpeaking,
-      outputLanguage: myOutputLanguage,
+      language: myOutputLanguage,
       campaignTarget: myCampaignTarget,
       templateName: templateName,
       recipient_name: my_recipient_name,
