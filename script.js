@@ -971,7 +971,6 @@ window.fetchData = async function (user) {
     if (target && target.id.includes("row")) {
       var rowId = target.id.match(/\d+/)[0];
       let queryParams = response[rowId - 1]["log_query_fields"]
-        .slice(0, -1)
         .map((value, index) => `param${index}=${encodeURIComponent(value)}`)
         .join("&");
       let outputMatchersParams = response[rowId - 1]["output_matchers"]
