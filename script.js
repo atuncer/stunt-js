@@ -515,6 +515,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const my_sender_name = document.getElementById("sender_name")
     ? document.getElementById("sender_name").value
     : null;
+  const my_client_name = document.getElementById("client_name")
+    ? document.getElementById("client_name").value
+    : null;
 
   const element = document.querySelector(".text-516");
   const userToken = await getUserIdToken();
@@ -570,6 +573,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       quotes: my_quotes,
       contact: my_contact,
       sender_name: my_sender_name,
+      client_name: my_client_name,
       rewritePrompt: rewritePrompt,
       UUID: myUuid,
       userToken: userToken,
@@ -1010,21 +1014,23 @@ function fillInputFieldsFromUrlParams() {
 
   urlParams.forEach((value, key) => {
     if (key.includes("param")) {
-      let node = document.querySelector(`#${value.split("==")[0]}`);
+      const myKey = value.split("==")[0];
+      const myValue = value.split("==")[1];
+      let node = document.querySelector(`#${myKey}`);
 
       if (node.type === "text") {
-        node.value = value.split("==")[1];
+        node.value = myValue;
       } else {
         let optionExists = Array.from(node.options).some(
-          (option) => option.value === value
+          (option) => option.value === myValue
         );
         if (!optionExists) {
           let option = document.createElement("option");
-          option.value = value;
-          option.text = value;
+          option.value = myValue;
+          option.text = myValue;
           node.appendChild(option);
         }
-        node.value = value;
+        node.value = myValue;
       }
     }
   });
