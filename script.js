@@ -1235,11 +1235,8 @@ async function myPlans(user) {
             document.querySelector(`#${product}`).style.display = "block";
 
             document.querySelector("#billing_info_plan_name").innerText =
-              document.querySelector("#your_plan_account > div > h5").innerText;
-            document.querySelector("#billing_info_plan_details").innerText =
-              document.querySelector(
-                "#your_plan_account > div > div.tab-content-text-pricing-2"
-              ).innerText;
+              document.querySelector(`#${product} > h5`).innerText;
+            document.querySelector("#billing_info_plan_details").innerText = data.end_date
 
             document
               .querySelector("#best_option_for_you")
