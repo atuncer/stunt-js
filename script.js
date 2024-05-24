@@ -317,7 +317,7 @@ auth.onAuthStateChanged(async (user) => {
       myGlobalUser != null
     ) {
       fetchDataAndCreateChart();
-      fillRecents();
+      //fillRecents();
     }
   }
 
