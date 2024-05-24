@@ -693,7 +693,7 @@ function deepCopyResponseDiv(baseOutput) {
   newOutput.querySelector("#myOutputText_0").innerHTML = "";
   newOutput.querySelector(
     "#variantNo"
-  ).innerText = `Variant - ${window.uids.length} + 1`;
+  ).innerText = `Variant - ${window.uids.length + 1}`;
 
   newOutput.querySelector(
     "#myOutputText_0"
