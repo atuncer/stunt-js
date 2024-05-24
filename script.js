@@ -589,13 +589,16 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     document.querySelector("#output_lottie").style.display = "none";
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
-    baseOutput.style.display = "block";
+    if (isNew) {
+      baseOutput.style.display = "block";
+    }
 
     let token = decoder.decode(result.value);
 
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
+      baseOutput.style.display = "none";
       baseOutput.parentNode.insertBefore(
         newOutput,
         baseOutput.parentNode.firstChild
@@ -1236,7 +1239,8 @@ async function myPlans(user) {
 
             document.querySelector("#billing_info_plan_name").innerText =
               document.querySelector(`#${product} > h5`).innerText;
-            document.querySelector("#billing_info_plan_details").innerText = data.end_date
+            document.querySelector("#billing_info_plan_details").innerText =
+              data.end_date;
 
             document
               .querySelector("#best_option_for_you")
