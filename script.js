@@ -669,7 +669,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     }
     document
       .querySelector("#output_lottie")
-      .parentNode.prepend(document.querySelector("#output_lottie"));
+      .parentNode.append(document.querySelector("#output_lottie"));
 
     return reader.read().then(processResult);
   });
