@@ -669,7 +669,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     }
     document
       .querySelector("#output_lottie")
-      .parentNode.append(document.querySelector("#output_lottie"));
+      .parentNode.prepend(document.querySelector("#output_lottie"));
 
     return reader.read().then(processResult);
   });
@@ -691,9 +691,9 @@ function deepCopyResponseDiv(baseOutput) {
   newOutput.id = `output_${window.uids.length}`;
 
   newOutput.querySelector("#myOutputText_0").innerHTML = "";
-  newOutput.querySelector(
-    "#variantNo"
-  ).innerText = `Variant - ${window.uids.length + 1}`;
+  newOutput.querySelector("#variantNo").innerText = `Variant - ${
+    window.uids.length + 1
+  }`;
 
   newOutput.querySelector(
     "#myOutputText_0"
