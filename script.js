@@ -971,49 +971,54 @@ window.fetchData = async function (user) {
 
       window.location.href = `${
         response[rowId - 1]["template"]
-      }?recentUuid=${response[rowId - 1]["main_uuid"]}&user_token=${user_token}`;
+      }?recentUuid=${response[rowId - 1]["main_uuid"]}`;
     }
   });
 };
 
-function fillInputFieldsFromUrlParams() {
+async function fillInputFieldsFromUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   const paramsArray = [];
   const outputsArray = [];
 
-  urlParams.forEach((value, key) => {
-    if (key.includes("param")) {
-      const myKey = value.split("==")[0];
-      const myValue = value.split("==")[1];
-      let node = document.querySelector(`#${myKey}`);
+  const uuid = urlParams.get("recentUuid");
+  const token = myGlobalUser.getIdToken();
 
-      if (node.type === "text") {
-        node.value = myValue;
-      } else {
-        let optionExists = Array.from(node.options).some(
-          (option) => option.value === myValue
-        );
-        if (!optionExists) {
-          let option = document.createElement("option");
-          option.value = myValue;
-          option.text = myValue;
-          node.appendChild(option);
-        }
-        node.value = myValue;
+  //assign this fetch `${API_URL}/api/v1/recentUuid?uuid=${uuid}&user_token=${token}` to a json
+  const apiResponse = await fetch(
+    `${API_URL}/api/v1/recentUuid?uuid=${uuid}&user_token=${token}`
+  );
+
+  const response = await apiResponse.json();
+
+  const fields = response["log_query_fields"];
+  const outputs = response["output_matchers"];
+
+  fields.forEach((value) => {
+    const myKey = value.split("==")[0];
+    const myValue = value.split("==")[1];
+    let node = document.querySelector(`#${myKey}`);
+
+    if (node.type === "text") {
+      node.value = myValue;
+    } else {
+      let optionExists = Array.from(node.options).some(
+        (option) => option.value === myValue
+      );
+      if (!optionExists) {
+        let option = document.createElement("option");
+        option.value = myValue;
+        option.text = myValue;
+        node.appendChild(option);
       }
+      node.value = myValue;
     }
+
   });
 
-  let outputCount = 0;
 
-  urlParams.forEach((value, key) => {
-    if (key.includes("output")) {
-      outputsArray.push(value);
-      outputCount++;
-    }
-  });
-
-  outputsArray.forEach((output, index) => {
+  let index = 0;
+  outputs.forEach((output) => {
     let newOutput = null;
     if (getComputedStyle(document.querySelector("#output_0")).display === "none") {
       newOutput = document.querySelector("#output_0");
@@ -1022,22 +1027,19 @@ function fillInputFieldsFromUrlParams() {
       document.querySelector("#output_0").parentNode.appendChild(newOutput);
     }
     newOutput.style.display = "block";
-    output = output.replace(/\n/g, '<br>');
-    newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
+    newOutput.querySelector(`#myOutputText_0`).innerHTML = output['response'].replace(/\n/g, '<br>');
     newOutput.id = `output_${index}`;
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
+    index++;
+    window.uids.push(output['uuid']);
   });
 
-  urlParams.forEach((value, key) => {
-    if (key.includes("uuid")) {
-      window.uids.push(value);
-    }
-  });
+
 }
 
 const urlParams = new URLSearchParams(window.location.search);
 if (Array.from(urlParams.entries()).length > 0) {
-  fillInputFieldsFromUrlParams();
+  await fillInputFieldsFromUrlParams();
 }
 const toasts = [];
 const offsetIncrement = 40;
