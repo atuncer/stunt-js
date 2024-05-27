@@ -593,7 +593,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       baseOutput.style.display = "block";
     }
 
-    let token = decoder.decode(result.value);
+    let token = decoder.decode(result.value).replace(/\n/g, '<br>');
 
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
