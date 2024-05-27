@@ -1047,7 +1047,7 @@ function fillInputFieldsFromUrlParams() {
       newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
     }
     newOutput.style.display = "block";
-    output.replace(/\n/g, '<br>');
+    output = output.replace(/\n/g, '<br>');
     newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
     newOutput.id = `output_${index + 1}`;
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
