@@ -996,8 +996,8 @@ async function fillInputFieldsFromUrlParams() {
 
   const response = await apiResponse.json();
 
-  const fields = response["log_query_fields"];
-  const outputs = response["output_matchers"];
+  const fields = response[0]["log_query_fields"];
+  const outputs = response[0]["output_matchers"];
 
   fields.forEach((value) => {
     const myKey = value.split("==")[0];
