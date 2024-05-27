@@ -911,7 +911,7 @@ parentElement.addEventListener("click", function (event) {
 
 window.fetchData = async function (user) {
   const token = await user.getIdToken();
-  const apiResponse = await fetch(`${API_URL}/api/v1/recents/${token}`, {
+  const apiResponse = await fetch(`${API_URL}/api/v1/recents?user_token=${token}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -1047,11 +1047,10 @@ function fillInputFieldsFromUrlParams() {
       newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
     }
     newOutput.style.display = "block";
+    output.replace(/\n/g, '<br>');
     newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
     newOutput.id = `output_${index + 1}`;
-    newOutput.querySelector("#variantNo").innerText = `Variant - ${
-      outputCount - index
-    }`;
+    newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
     document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
 
