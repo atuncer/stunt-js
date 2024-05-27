@@ -933,26 +933,29 @@ window.fetchData = async function (user) {
         document.querySelector(`#row${index + 1} #type`).innerHTML =
           item["template"];
       }
-      const timestamp = item["log_last_update"];
-      const readableTimestamp = `${new Date(timestamp).getDate()} ${new Date(
-        timestamp
-      ).toLocaleString("en-US", {month: "long"})} ${new Date(
-        timestamp
-      ).getFullYear()}, ${new Date(timestamp).getHours() % 12 || 12}:${new Date(
-        timestamp
-      )
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")} ${
-        new Date(timestamp).getHours() >= 12 ? "PM" : "AM"
-      }`;
+      const timestamp = item["log_last_update"].toLocaleString()
+      const date = new Date(timestamp);
+
+      const options = {
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      };
+
+      let readableTimestamp = date.toLocaleString('en-US', options);
+
+// Ensure AM/PM is in uppercase
+      readableTimestamp = readableTimestamp.replace(/([ap])m/, match => match.toUpperCase());
       document.querySelector(`#row${index + 1} #modified`).innerHTML =
         readableTimestamp;
     } else {
       document.querySelector(`#row${index + 1} #name`).innerHTML = "No name";
       document.querySelector(`#row${index + 1} #type`).innerHTML = "No type";
-      document.querySelector(`#row${index + 1} #modified`).innerHTML =
-        "No Date";
+      document.querySelector(`#row${index + 1} #modified`).innerHTML = "No Date";
     }
   });
 
