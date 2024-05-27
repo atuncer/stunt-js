@@ -982,7 +982,7 @@ async function fillInputFieldsFromUrlParams() {
   const outputsArray = [];
 
   const uuid = urlParams.get("recentUuid");
-  const token = myGlobalUser.getIdToken();
+  const token = await getUserIdToken();
 
   //assign this fetch `${API_URL}/api/v1/recentUuid?uuid=${uuid}&user_token=${token}` to a json
   const apiResponse = await fetch(
