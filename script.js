@@ -1037,10 +1037,14 @@ async function fillInputFieldsFromUrlParams() {
 
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-if (Array.from(urlParams.entries()).length > 0) {
-  await fillInputFieldsFromUrlParams();
+async function fillInputFields() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (Array.from(urlParams.entries()).length > 0) {
+    await fillInputFieldsFromUrlParams();
+  }
 }
+
+fillInputFields();
 const toasts = [];
 const offsetIncrement = 40;
 
