@@ -303,6 +303,10 @@ auth.onAuthStateChanged(async (user) => {
     if (window.location.href.includes("portal")) {
       const user_token = await myGlobalUser.getIdToken();
 
+      if (Array.from(urlParams.entries()).length > 0) {
+        await fillInputFieldsFromUrlParams();
+      }
+
       // Fetch data from the API
       const is_blurred = await fetch(
         `${API_URL}/api/v1/is_user_enrolled/${user_token}`
@@ -1037,14 +1041,6 @@ async function fillInputFieldsFromUrlParams() {
 
 }
 
-async function fillInputFields() {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (Array.from(urlParams.entries()).length > 0) {
-    await fillInputFieldsFromUrlParams();
-  }
-}
-
-fillInputFields();
 const toasts = [];
 const offsetIncrement = 40;
 
