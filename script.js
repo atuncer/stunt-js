@@ -949,7 +949,6 @@ window.fetchData = async function (user) {
 
       let readableTimestamp = date.toLocaleString('en-US', options);
 
-// Ensure AM/PM is in uppercase
       readableTimestamp = readableTimestamp.replace(/([ap])m/, match => match.toUpperCase());
       document.querySelector(`#row${index + 1} #modified`).innerHTML =
         readableTimestamp;
@@ -960,43 +959,19 @@ window.fetchData = async function (user) {
     }
   });
 
-  document.addEventListener("click", function (event) {
+  document.addEventListener("click", async function (event) {
     let target = event.target;
     while (target && !target.id.includes("row")) {
       target = target.parentElement;
     }
     if (target && target.id.includes("row")) {
       var rowId = target.id.match(/\d+/)[0];
-      let queryParams = response[rowId - 1]["log_query_fields"]
-        .map((value, index) => `param${index}=${encodeURIComponent(value)}`)
-        .join("&");
-      let outputMatchersParams = response[rowId - 1]["output_matchers"]
-        .map(
-          (matcher, index) =>
-            `output${index}=${encodeURIComponent(matcher["response"])}`
-        )
-        .join("&");
 
-      let outputMatchersUuids = response[rowId - 1]["output_matchers"]
-        .map(
-          (matcher, index) =>
-            `uuid${index}=${encodeURIComponent(matcher["uuid"])}`
-        )
-        .join("&");
-
-      if (
-        queryParams.length > 0 &&
-        outputMatchersParams.length > 0 &&
-        outputMatchersUuids.length > 0
-      ) {
-        queryParams += "&" + outputMatchersParams + "&" + outputMatchersUuids;
-      } else if (outputMatchersParams.length > 0) {
-        queryParams = outputMatchersParams;
-      }
+      const user_token = await myGlobalUser.getIdToken();
 
       window.location.href = `${
         response[rowId - 1]["template"]
-      }?${queryParams}`;
+      }?recentUuid=${response[rowId - 1]["main_uuid"]}&user_token=${user_token}`;
     }
   });
 };
