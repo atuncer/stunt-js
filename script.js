@@ -946,6 +946,7 @@ window.fetchData = async function (user) {
         hour12: true
       };
 
+
       let readableTimestamp = date.toLocaleString('en-US', options);
 
 // Ensure AM/PM is in uppercase
