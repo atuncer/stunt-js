@@ -598,7 +598,9 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
-      baseOutput.style.display = "none";
+      if (document.querySelector("#myOutputText_0").innerText.length < 1) {
+        baseOutput.style.display = "none";
+      }
       baseOutput.parentNode.appendChild(newOutput);
       isNewFlag = false;
     }
