@@ -1032,7 +1032,7 @@ async function fillInputFieldsFromUrlParams() {
       document.querySelector("#output_0").parentNode.appendChild(newOutput);
     }
     newOutput.style.display = "block";
-    newOutput.querySelector(`#myOutputText_0`).innerHTML = output['response'].replace(/\n/g, '<br>');
+    newOutput.querySelector(`#myOutputText_${window.uids.length}`).innerHTML = output['response'].replace(/\n/g, '<br>');
     newOutput.id = `output_${index}`;
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
     index++;
