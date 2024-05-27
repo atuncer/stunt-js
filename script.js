@@ -1045,7 +1045,7 @@ function fillInputFieldsFromUrlParams() {
     newOutput.style.display = "block";
     output = output.replace(/\n/g, '<br>');
     newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
-    newOutput.id = `output_${index + 1}`;
+    newOutput.id = `output_${index}`;
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
   });
 
