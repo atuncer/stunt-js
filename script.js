@@ -1040,13 +1040,13 @@ function fillInputFieldsFromUrlParams() {
       newOutput = document.querySelector("#output_0");
     } else {
       newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
+      document.querySelector("#output_0").parentNode.appendChild(newOutput);
     }
     newOutput.style.display = "block";
     output = output.replace(/\n/g, '<br>');
     newOutput.querySelector(`#myOutputText_0`).innerHTML = output;
     newOutput.id = `output_${index + 1}`;
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
-    document.querySelector("#output_0").parentNode.appendChild(newOutput);
   });
 
   urlParams.forEach((value, key) => {
