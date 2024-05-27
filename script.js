@@ -372,7 +372,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const myOutputLanguage =
     document.getElementById("language").options[
       document.getElementById("language").selectedIndex
-    ].textContent;
+      ].textContent;
 
   document.querySelector("#output_lottie").style.display = "block";
 
@@ -599,10 +599,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
       baseOutput.style.display = "none";
-      baseOutput.parentNode.insertBefore(
-        newOutput,
-        baseOutput.parentNode.firstChild
-      );
+      baseOutput.parentNode.appendChild(newOutput);
       isNewFlag = false;
     }
 
@@ -622,10 +619,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
         } catch (e) {
           let newOutput = deepCopyResponseDiv(baseOutput);
           newOutput.style.display = "block";
-          baseOutput.parentNode.insertBefore(
-            newOutput,
-            baseOutput.parentNode.firstChild
-          );
+          baseOutput.parentNode.appendChild(newOutput);
           document
             .querySelector(`#output_${window.uids.length}`)
             .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
@@ -640,10 +634,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       if (token_left.length > 0) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
-        baseOutput.parentNode.insertBefore(
-          newOutput,
-          baseOutput.parentNode.firstChild
-        );
+        baseOutput.parentNode.appendChild(newOutput);
         newOutput.querySelector(
           `#myOutputText_${window.uids.length}`
         ).innerHTML = token_left ? token_left : "";
@@ -657,10 +648,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       } catch (e) {
         let newOutput = deepCopyResponseDiv(baseOutput);
         newOutput.style.display = "block";
-        baseOutput.parentNode.insertBefore(
-          newOutput,
-          baseOutput.parentNode.firstChild
-        );
+        baseOutput.parentNode.appendChild(newOutput);
         document
           .querySelector(`#output_${window.uids.length}`)
           .querySelector(`#myOutputText_${window.uids.length}`).innerHTML +=
@@ -669,7 +657,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     }
     document
       .querySelector("#output_lottie")
-      .parentNode.append(document.querySelector("#output_lottie"));
+      .parentNode.prepend(document.querySelector("#output_lottie"));
 
     return reader.read().then(processResult);
   });
@@ -897,7 +885,8 @@ parentElement.addEventListener("click", function (event) {
       } else {
         window.user
           .updatePassword(newPass)
-          .then(() => {})
+          .then(() => {
+          })
           .catch((error) => {
             window.showToast(`Password isn't updated: ${error.message}`);
             return;
@@ -950,7 +939,7 @@ window.fetchData = async function (user) {
       const timestamp = item["log_last_update"];
       const readableTimestamp = `${new Date(timestamp).getDate()} ${new Date(
         timestamp
-      ).toLocaleString("en-US", { month: "long" })} ${new Date(
+      ).toLocaleString("en-US", {month: "long"})} ${new Date(
         timestamp
       ).getFullYear()}, ${new Date(timestamp).getHours() % 12 || 12}:${new Date(
         timestamp
@@ -1010,6 +999,7 @@ window.fetchData = async function (user) {
     }
   });
 };
+
 function fillInputFieldsFromUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   const paramsArray = [];
