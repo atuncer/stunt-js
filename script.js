@@ -589,18 +589,13 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     document.querySelector("#output_lottie").style.display = "none";
     if (result.done) return;
     let baseOutput = document.getElementById("output_0");
-    if (isNew) {
-      baseOutput.style.display = "block";
-    }
+    baseOutput.style.display = "block";
 
     let token = decoder.decode(result.value).replace(/\n/g, '<br>');
 
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
       newOutput.style.display = "block";
-      if (document.querySelector("#myOutputText_0").innerText.length < 1) {
-        baseOutput.style.display = "none";
-      }
       baseOutput.parentNode.appendChild(newOutput);
       isNewFlag = false;
     }
@@ -1041,7 +1036,7 @@ function fillInputFieldsFromUrlParams() {
 
   outputsArray.forEach((output, index) => {
     let newOutput = null;
-    if (document.querySelector("#output_0").style.display === "none") {
+    if (getComputedStyle(document.querySelector("#output_0")).display === "none") {
       newOutput = document.querySelector("#output_0");
     } else {
       newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
