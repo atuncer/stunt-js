@@ -1084,10 +1084,10 @@ async function fetchDataAndCreateChart() {
   }
 
   const response = await fetch(`${API_URL}/api/v1/usage/daily/${user_token}`);
-  const apiData = await response.json();
+  let apiData = await response.json();
+  const monthly_allowed = apiData['metadata']['monthly_allowance']
+  apiData = apiData['data'];
   const data = apiData.slice(-5);
-
-  let monthly_hak = 10000;
   const targetDiv = document.getElementById("chart"); // Use your target div's ID
 
   // I want total sum of all data total_response_length
@@ -1101,7 +1101,7 @@ async function fetchDataAndCreateChart() {
   totalWord.style.display = "block";
 
   const usedWord = document.querySelector("#used_word");
-  usedWord.innerHTML += `${monthly_hak}`;
+  usedWord.innerHTML += `${monthly_allowed}`;
   usedWord.style.display = "block";
 
   const labels = data.map((item) => convertDate(item.last_update_day));
