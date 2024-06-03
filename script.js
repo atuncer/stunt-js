@@ -308,6 +308,7 @@ async function handleStripeHref() {
   }
 }
 
+
 auth.onAuthStateChanged(async (user) => {
   let publicElements = document.querySelectorAll("[data-onlogin='hide']");
   let privateElements = document.querySelectorAll("[data-onlogin='show']");
