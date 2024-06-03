@@ -173,7 +173,9 @@ function handleSignOut() {
 }
 
 if (window.location.href.includes("pricing")) {
-  await handleStripeHref();
+  (async function() {
+    await handleStripeHref();
+  })();
 }
 
 async function handleStripeHref() {
