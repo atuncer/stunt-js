@@ -258,7 +258,7 @@ async function handleStripeHref() {
 
     const buttonIds = ["limited", "professional", "big", "super", "elite"];
 
-    if (!window.user.getIdToken) {
+    if (!window.user) {
       console.log("User token is not available");
       buttonIds.forEach((id, index) => {
         document.querySelector(`#${id}_y_button`).href =
