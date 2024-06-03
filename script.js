@@ -95,6 +95,7 @@ function handleSignUp(e) {
         window.showToast("Your password must be at least 6 characters");
       } else {
         // Handle other errors if needed
+        window.showToast("Error");
         console.error(errorMessage);
       }
     })
