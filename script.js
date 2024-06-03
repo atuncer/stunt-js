@@ -257,18 +257,19 @@ async function handleStripeHref() {
     }
 
     const buttonIds = ["limited", "professional", "big", "super", "elite"];
+    const baseUrl = window.location.origin;
 
     if (!window.user) {
       console.log("User token is not available");
       buttonIds.forEach((id, index) => {
         document.querySelector(`#${id}_y_button`).href =
-          `/${signUpUrl}`;
+          `${baseUrl}${signUpUrl}`;
         document.querySelector(`#${id}_y_button`).innerText =
-          "Sign Up for free";
+          "Get Started";
         document.querySelector(`#${id}_m_button`).href =
-          `/${signUpUrl}`;
+          `${baseUrl}${signUpUrl}`;
         document.querySelector(`#${id}_m_button`).innerText =
-          "Sign Up for free";
+          "Get Started";
       });
       return;
     }
