@@ -9,6 +9,7 @@ if (
 }
 
 const API_URL = "https://app.stuntai.co";
+const signUpUrl = "/sign-up-copy";
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
   authDomain: "stuntai-74414.firebaseapp.com",
@@ -248,6 +249,21 @@ function handleStripeHref() {
     const buttonIds = ["limited", "professional", "big", "super", "elite"];
 
     user.getIdToken().then((id_token) => {
+      if (!id_token) {
+        console.log("User token is not available");
+        buttonIds.forEach((id, index) => {
+          document.querySelector(`#${id}_y_button`).href =
+            `/${signUpUrl}`;
+          document.querySelector(`#${id}_y_button`).innerText =
+            "Sign Up for free";
+          document.querySelector(`#${id}_m_button`).href =
+            `/${signUpUrl}`;
+          document.querySelector(`#${id}_m_button`).innerText =
+            "Sign Up for free";
+        });
+        return;
+      }
+
       fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then(
         (response) => {
           if (response.status === 531 /* should be 400 */) {
@@ -336,6 +352,7 @@ auth.onAuthStateChanged(async (user) => {
 
   const dashboard = "/portal/my-dashboard";
   const signIn = "/sign-in-copy";
+  const signUpUrl = "/sign-up-copy";
 
   console.log(
     "isSignInPage: ",
