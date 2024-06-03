@@ -172,6 +172,9 @@ function handleSignOut() {
     });
 }
 
+if (window.location.href.includes("pricing")) {
+  handleStripeHref();
+}
 function handleStripeHref() {
   if (
     window.location.pathname === "/pricing" ||
