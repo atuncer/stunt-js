@@ -173,9 +173,10 @@ function handleSignOut() {
 }
 
 if (window.location.href.includes("pricing")) {
-  handleStripeHref();
+  await handleStripeHref();
 }
-function handleStripeHref() {
+
+async function handleStripeHref() {
   if (
     window.location.pathname === "/pricing" ||
     window.location.pathname === "/pricing/"
@@ -255,50 +256,51 @@ function handleStripeHref() {
 
     const buttonIds = ["limited", "professional", "big", "super", "elite"];
 
-    user.getIdToken().then((id_token) => {
-      if (!id_token) {
-        console.log("User token is not available");
-        buttonIds.forEach((id, index) => {
-          document.querySelector(`#${id}_y_button`).href =
-            `/${signUpUrl}`;
-          document.querySelector(`#${id}_y_button`).innerText =
-            "Sign Up for free";
-          document.querySelector(`#${id}_m_button`).href =
-            `/${signUpUrl}`;
-          document.querySelector(`#${id}_m_button`).innerText =
-            "Sign Up for free";
-        });
-        return;
-      }
+    if (!window.user.getIdToken) {
+      console.log("User token is not available");
+      buttonIds.forEach((id, index) => {
+        document.querySelector(`#${id}_y_button`).href =
+          `/${signUpUrl}`;
+        document.querySelector(`#${id}_y_button`).innerText =
+          "Sign Up for free";
+        document.querySelector(`#${id}_m_button`).href =
+          `/${signUpUrl}`;
+        document.querySelector(`#${id}_m_button`).innerText =
+          "Sign Up for free";
+      });
+      return;
+    }
 
-      fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then(
-        (response) => {
-          if (response.status === 531 /* should be 400 */) {
-            buttonIds.forEach((id, index) => {
-              document.querySelector(`#${id}_y_button`).href =
-                trial_yearly_urls[index];
-              document.querySelector(`#${id}_y_button`).innerText =
-                "Start free trial";
-              document.querySelector(`#${id}_m_button`).href =
-                trial_monthly_urls[index];
-              document.querySelector(`#${id}_m_button`).innerText =
-                "Start free trial";
-            });
-          } else {
-            buttonIds.forEach((id, index) => {
-              document.querySelector(`#${id}_y_button`).href =
-                yearly_urls[index];
-              document.querySelector(`#${id}_y_button`).innerText =
-                "Subscribe now";
-              document.querySelector(`#${id}_m_button`).href =
-                monthly_urls[index];
-              document.querySelector(`#${id}_m_button`).innerText =
-                "Subscribe now";
-            });
-          }
+    const id_token = await window.user.getIdToken();
+
+    fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then(
+      (response) => {
+        if (response.status === 531 /* should be 400 */) {
+          buttonIds.forEach((id, index) => {
+            document.querySelector(`#${id}_y_button`).href =
+              trial_yearly_urls[index];
+            document.querySelector(`#${id}_y_button`).innerText =
+              "Start free trial";
+            document.querySelector(`#${id}_m_button`).href =
+              trial_monthly_urls[index];
+            document.querySelector(`#${id}_m_button`).innerText =
+              "Start free trial";
+          });
+        } else {
+          buttonIds.forEach((id, index) => {
+            document.querySelector(`#${id}_y_button`).href =
+              yearly_urls[index];
+            document.querySelector(`#${id}_y_button`).innerText =
+              "Subscribe now";
+            document.querySelector(`#${id}_m_button`).href =
+              monthly_urls[index];
+            document.querySelector(`#${id}_m_button`).innerText =
+              "Subscribe now";
+          });
         }
-      );
-    });
+      }
+    );
+
   } else if (window.location.href.includes("manage-your-account")) {
     document.querySelector(
       "#change_plan"
@@ -318,7 +320,7 @@ auth.onAuthStateChanged(async (user) => {
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
 
-    handleStripeHref();
+    await handleStripeHref();
     if (window.location.href.includes("manage-your-account")) {
       await myPlans(user);
     }
