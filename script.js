@@ -22,8 +22,6 @@ const app = firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth(app);
 let myGlobalUser;
 
-let signUpForm = document.getElementById("wf-form-signup-form");
-let signInForm = document.getElementById("wf-form-signin-form");
 let signOutButton = document.getElementById("sign-out-button");
 let signInButton = document.getElementById("sign-in-button");
 let signUpButton = document.getElementById("sign-up-button");
@@ -119,7 +117,6 @@ async function handleRedirect(user) {
       return;
     }
     window.location.href = "pricing";
-    return;
   });
 }
 
@@ -139,8 +136,6 @@ function handleSignIn(e) {
     .catch((error) => {
       var errorCode = error.code;
       var errorMessage = error.message;
-      var email = error.email;
-      var credential = error.credential;
 
       // Check the error code and display the appropriate message
       if (
@@ -310,8 +305,6 @@ async function handleStripeHref() {
 
 
 auth.onAuthStateChanged(async (user) => {
-  let publicElements = document.querySelectorAll("[data-onlogin='hide']");
-  let privateElements = document.querySelectorAll("[data-onlogin='show']");
 
   myGlobalUser = user;
   window.user = user;
@@ -360,9 +353,7 @@ auth.onAuthStateChanged(async (user) => {
     window.fetchData(user);
   }
 
-  const dashboard = "/portal/my-dashboard";
   const signIn = "/sign-in-today";
-  const signUpUrl = "/join-today";
 
   console.log(
     "isSignInPage: ",
@@ -489,9 +480,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const my_product_benefits = document.getElementById("product_benefits")
     ? document.getElementById("product_benefits").value
     : null;
-  const my_product_name = document.getElementById("product_name")
-    ? document.getElementById("product_name").value
-    : null;
   const my_stakeholder_names = document.getElementById("stakeholder_names")
     ? document.getElementById("stakeholder_names").value
     : null;
@@ -587,7 +575,6 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       product_offering: my_product_offering,
       sender_product_performance: my_sender_product_performance,
       product_benefits: my_product_benefits,
-      product_name: my_product_name,
       stakeholder_names: my_stakeholder_names,
       short_description: my_short_description,
       contributors: my_contributors,
@@ -1010,8 +997,6 @@ window.fetchData = async function (user) {
 
 async function fillInputFieldsFromUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
-  const paramsArray = [];
-  const outputsArray = [];
 
   const uuid = urlParams.get("recentUuid");
   const token = await myGlobalUser.getIdToken();
