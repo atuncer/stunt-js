@@ -54,7 +54,6 @@ function handleSignUp(e) {
   const password = document.getElementById("signup-password").value;
   const user_name = document.getElementById("sign-up-name").value;
   const checkBox = document.querySelector("#checkbox");
-  const checkBoxDemo = document.querySelector("#checkbox-demo");
   let errorOccurred = false;
 
   if (!checkBox.checked) {
@@ -102,9 +101,6 @@ function handleSignUp(e) {
     .then(() => {
       if (errorOccurred) {
         return;
-      }
-      if (checkBoxDemo.checked) {
-        fetch(`${API_URL}/api/v1/book_demo/${email}`);
       }
       window.location.href = "email-sent";
     });
@@ -365,8 +361,8 @@ auth.onAuthStateChanged(async (user) => {
   }
 
   const dashboard = "/portal/my-dashboard";
-  const signIn = "/sign-in-copy";
-  const signUpUrl = "/sign-up-copy";
+  const signIn = "/sign-in-today";
+  const signUpUrl = "/join-today";
 
   console.log(
     "isSignInPage: ",
