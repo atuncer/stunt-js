@@ -105,8 +105,8 @@ function handleSignUp(e) {
 }
 
 document
-  .getElementById("resetPasswordForm")
-  .addEventListener("reset_button", function (e) {
+  .getElementById("reset_button")
+  .addEventListener("submit", function (e) {
     e.preventDefault();
     var email = document.getElementById("forget_email").value;
     firebase
