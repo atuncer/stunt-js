@@ -90,6 +90,8 @@ function handleSignUp(e) {
         window.showToast("Email is already in use");
       } else if (errorCode === "auth/weak-password") {
         window.showToast("Your password must be at least 6 characters");
+      } else if (errorCode === "auth/invalid-email") {
+        window.showToast("The email address is badly formatted.");
       } else {
         // Handle other errors if needed
         window.showToast("Error");
