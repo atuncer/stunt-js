@@ -104,22 +104,24 @@ function handleSignUp(e) {
     });
 }
 
-document
-  .getElementById("reset_button")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-    var email = document.getElementById("forget_email").value;
-    firebase
-      .auth()
-      .sendPasswordResetEmail(email)
-      .then(function () {
-        document.getElementById("message").innerText =
-          "Password reset email sent!";
-      })
-      .catch(function (error) {
-        document.getElementById("message").innerText = error.message;
-      });
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("reset_button")
+    .addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = document.getElementById("forget_email").value;
+      firebase
+        .auth()
+        .sendPasswordResetEmail(email)
+        .then(function () {
+          document.getElementById("message").innerText =
+            "Password reset email sent!";
+        })
+        .catch(function (error) {
+          document.getElementById("message").innerText = error.message;
+        });
+    });
+});
 
 async function handleRedirect(user) {
   if (!user.emailVerified) {
