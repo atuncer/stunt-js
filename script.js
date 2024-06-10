@@ -104,6 +104,23 @@ function handleSignUp(e) {
     });
 }
 
+document
+  .getElementById("resetPasswordForm")
+  .addEventListener("reset_button", function (e) {
+    e.preventDefault();
+    var email = document.getElementById("forget_email").value;
+    firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(function () {
+        document.getElementById("message").innerText =
+          "Password reset email sent!";
+      })
+      .catch(function (error) {
+        document.getElementById("message").innerText = error.message;
+      });
+  });
+
 async function handleRedirect(user) {
   if (!user.emailVerified) {
     console.log("Email not verified");
@@ -165,7 +182,7 @@ function handleSignOut() {
 }
 
 if (window.location.href.includes("pricing")) {
-  (async function() {
+  (async function () {
     await handleStripeHref();
   })();
 }
@@ -254,48 +271,41 @@ async function handleStripeHref() {
     if (!window.user) {
       console.log("User token is not available");
       buttonIds.forEach((id, index) => {
-        document.querySelector(`#${id}_y_button`).href =
-          `${baseUrl}${signUpUrl}`;
-        document.querySelector(`#${id}_y_button`).innerText =
-          "Get Started";
-        document.querySelector(`#${id}_m_button`).href =
-          `${baseUrl}${signUpUrl}`;
-        document.querySelector(`#${id}_m_button`).innerText =
-          "Get Started";
+        document.querySelector(
+          `#${id}_y_button`
+        ).href = `${baseUrl}${signUpUrl}`;
+        document.querySelector(`#${id}_y_button`).innerText = "Get Started";
+        document.querySelector(
+          `#${id}_m_button`
+        ).href = `${baseUrl}${signUpUrl}`;
+        document.querySelector(`#${id}_m_button`).innerText = "Get Started";
       });
       return;
     }
 
     const id_token = await window.user.getIdToken();
 
-    fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then(
-      (response) => {
-        if (response.status === 531 /* should be 400 */) {
-          buttonIds.forEach((id, index) => {
-            document.querySelector(`#${id}_y_button`).href =
-              trial_yearly_urls[index];
-            document.querySelector(`#${id}_y_button`).innerText =
-              "Start free trial";
-            document.querySelector(`#${id}_m_button`).href =
-              trial_monthly_urls[index];
-            document.querySelector(`#${id}_m_button`).innerText =
-              "Start free trial";
-          });
-        } else {
-          buttonIds.forEach((id, index) => {
-            document.querySelector(`#${id}_y_button`).href =
-              yearly_urls[index];
-            document.querySelector(`#${id}_y_button`).innerText =
-              "Subscribe now";
-            document.querySelector(`#${id}_m_button`).href =
-              monthly_urls[index];
-            document.querySelector(`#${id}_m_button`).innerText =
-              "Subscribe now";
-          });
-        }
+    fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
+      if (response.status === 531 /* should be 400 */) {
+        buttonIds.forEach((id, index) => {
+          document.querySelector(`#${id}_y_button`).href =
+            trial_yearly_urls[index];
+          document.querySelector(`#${id}_y_button`).innerText =
+            "Start free trial";
+          document.querySelector(`#${id}_m_button`).href =
+            trial_monthly_urls[index];
+          document.querySelector(`#${id}_m_button`).innerText =
+            "Start free trial";
+        });
+      } else {
+        buttonIds.forEach((id, index) => {
+          document.querySelector(`#${id}_y_button`).href = yearly_urls[index];
+          document.querySelector(`#${id}_y_button`).innerText = "Subscribe now";
+          document.querySelector(`#${id}_m_button`).href = monthly_urls[index];
+          document.querySelector(`#${id}_m_button`).innerText = "Subscribe now";
+        });
       }
-    );
-
+    });
   } else if (window.location.href.includes("manage-your-account")) {
     document.querySelector(
       "#change_plan"
@@ -303,9 +313,7 @@ async function handleStripeHref() {
   }
 }
 
-
 auth.onAuthStateChanged(async (user) => {
-
   myGlobalUser = user;
   window.user = user;
 
@@ -395,7 +403,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const myOutputLanguage =
     document.getElementById("language").options[
       document.getElementById("language").selectedIndex
-      ].textContent;
+    ].textContent;
 
   document.querySelector("#output_lottie").style.display = "block";
 
@@ -610,7 +618,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
     let baseOutput = document.getElementById("output_0");
     baseOutput.style.display = "block";
 
-    let token = decoder.decode(result.value).replace(/\n/g, '<br>');
+    let token = decoder.decode(result.value).replace(/\n/g, "<br>");
 
     if (!isNew && isNewFlag) {
       let newOutput = deepCopyResponseDiv(baseOutput);
@@ -901,8 +909,7 @@ parentElement.addEventListener("click", function (event) {
       } else {
         window.user
           .updatePassword(newPass)
-          .then(() => {
-          })
+          .then(() => {})
           .catch((error) => {
             window.showToast(`Password isn't updated: ${error.message}`);
             return;
@@ -925,12 +932,15 @@ parentElement.addEventListener("click", function (event) {
 
 window.fetchData = async function (user) {
   const token = await user.getIdToken();
-  const apiResponse = await fetch(`${API_URL}/api/v1/recents?user_token=${token}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const apiResponse = await fetch(
+    `${API_URL}/api/v1/recents?user_token=${token}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
   const response = await apiResponse.json();
   console.log(response);
 
@@ -952,29 +962,31 @@ window.fetchData = async function (user) {
         document.querySelector(`#row${index + 1} #type`).innerHTML =
           item["template"];
       }
-      const timestamp = item["log_last_update"].toLocaleString()
+      const timestamp = item["log_last_update"].toLocaleString();
       const date = new Date(timestamp);
 
       const options = {
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
       };
 
+      let readableTimestamp = date.toLocaleString("en-US", options);
 
-      let readableTimestamp = date.toLocaleString('en-US', options);
-
-      readableTimestamp = readableTimestamp.replace(/([ap])m/, match => match.toUpperCase());
+      readableTimestamp = readableTimestamp.replace(/([ap])m/, (match) =>
+        match.toUpperCase()
+      );
       document.querySelector(`#row${index + 1} #modified`).innerHTML =
         readableTimestamp;
     } else {
       document.querySelector(`#row${index + 1} #name`).innerHTML = "No name";
       document.querySelector(`#row${index + 1} #type`).innerHTML = "No type";
-      document.querySelector(`#row${index + 1} #modified`).innerHTML = "No Date";
+      document.querySelector(`#row${index + 1} #modified`).innerHTML =
+        "No Date";
     }
   });
 
@@ -988,9 +1000,9 @@ window.fetchData = async function (user) {
 
       const user_token = await myGlobalUser.getIdToken();
 
-      window.location.href = `${
-        response[rowId - 1]["template"]
-      }?recentUuid=${response[rowId - 1]["main_uuid"]}`;
+      window.location.href = `${response[rowId - 1]["template"]}?recentUuid=${
+        response[rowId - 1]["main_uuid"]
+      }`;
     }
   });
 };
@@ -1030,28 +1042,27 @@ async function fillInputFieldsFromUrlParams() {
       }
       node.value = myValue;
     }
-
   });
-
 
   let index = 0;
   outputs.forEach((output) => {
     let newOutput = null;
-    if (getComputedStyle(document.querySelector("#output_0")).display === "none") {
+    if (
+      getComputedStyle(document.querySelector("#output_0")).display === "none"
+    ) {
       newOutput = document.querySelector("#output_0");
     } else {
       newOutput = deepCopyResponseDiv(document.querySelector("#output_0"));
       document.querySelector("#output_0").parentNode.appendChild(newOutput);
     }
     newOutput.style.display = "block";
-    newOutput.querySelector(`#myOutputText_${window.uids.length}`).innerHTML = output['response'].replace(/\n/g, '<br>');
+    newOutput.querySelector(`#myOutputText_${window.uids.length}`).innerHTML =
+      output["response"].replace(/\n/g, "<br>");
     newOutput.id = `output_${index}`;
     newOutput.querySelector("#variantNo").innerText = `Variant - ${index + 1}`;
     index++;
-    window.uids.push(output['uuid']);
+    window.uids.push(output["uuid"]);
   });
-
-
 }
 
 const toasts = [];
@@ -1097,8 +1108,8 @@ async function fetchDataAndCreateChart() {
 
   const response = await fetch(`${API_URL}/api/v1/usage/daily/${user_token}`);
   let apiData = await response.json();
-  const monthly_allowed = apiData['metadata']['monthly_allowance']
-  apiData = apiData['data'];
+  const monthly_allowed = apiData["metadata"]["monthly_allowance"];
+  apiData = apiData["data"];
   const data = apiData.slice(-5);
   const targetDiv = document.getElementById("chart"); // Use your target div's ID
 
