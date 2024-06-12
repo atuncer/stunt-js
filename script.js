@@ -288,7 +288,7 @@ async function handleStripeHref() {
     const id_token = await window.user.getIdToken();
 
     fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
-      if (response.status === 531 /* should be 400 */) {
+      if (response.status === 400) {
         buttonIds.forEach((id, index) => {
           document.querySelector(`#${id}_y_button`).href =
             trial_yearly_urls[index];
