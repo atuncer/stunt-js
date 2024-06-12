@@ -287,7 +287,6 @@ async function handleStripeHref() {
 
     const id_token = await window.user.getIdToken();
 
-
     fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
       if (response.status === 400) {
         buttonIds.forEach((id, index) => {
