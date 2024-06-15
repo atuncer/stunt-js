@@ -290,7 +290,7 @@ async function handleStripeHref() {
     const id_token = await window.user.getIdToken();
 
     fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
-      if (response.status === 531 /* should be 400 */) {
+      if (response.status === 400) {
         buttonIds.forEach((id, index) => {
           document.querySelector(`#${id}_y_button`).href =
             trial_yearly_urls[index];
@@ -1207,16 +1207,16 @@ async function fillRecents() {
 
 async function myPlans(user) {
   const idToProductMap = {
-    prod_PnCewPGTjnZKkF: "elite_yearly",
-    prod_PnCbkIUP3oQHy4: "super_yearly",
-    prod_PnCWmjPQpoN6Ft: "big_yearly",
-    prod_PnCP6dSDWNrJwL: "professional_yearly",
-    prod_PjiftEwvwXYU3B: "limited_yearly",
-    prod_PnCcyWcEVruu81: "elite_monthly",
-    prod_PnCa0d38Kk9Vyw: "super_monthly",
-    prod_PnCVNin7Kj78hN: "big_monthly",
-    prod_PnCONrdouMXApU: "professional_monthly",
-    prod_PjeUaaUuw7qDtK: "limited_monthly",
+    prod_PnHr78eyKNmQXw: "elite_yearly",
+    prod_QBJichLNSTxMa7: "super_yearly",
+    prod_QBJjzr2UUg3OsW: "big_yearly",
+    prod_QBJkBYtvXa4H9h: "professional_yearly",
+    prod_QBJk5YLRHgta2z: "limited_yearly",
+    prod_QBJi4twX9AWEd2: "elite_monthly",
+    prod_QBJi8ti9U6Aqol: "super_monthly",
+    prod_QBJkZt91urkrjs: "big_monthly",
+    prod_QBJksLRlka1Uva: "professional_monthly",
+    prod_QBJhDI16DLqSHU: "limited_monthly",
   };
 
   const user_token = await user.getIdToken();
