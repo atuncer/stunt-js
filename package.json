@@ -1,10 +1,6 @@
 {
   "name": "stunt-webflow",
-<<<<<<< HEAD
-  "version": "1.0.187",
-=======
-  "version": "1.0.190",
->>>>>>> 1bebccde278bd21e4fc3e72bde2cb265edab025e
+  "version": "1.0.192",
   "description": "",
   "main": "script.js",
   "scripts": {

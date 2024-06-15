@@ -9,7 +9,7 @@ if (
 }
 
 const API_URL = "https://app.stuntai.co";
-const signUpUrl = "/sign-up-copy";
+const signUpUrl = "/join-today";
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
   authDomain: "stuntai-74414.firebaseapp.com",
@@ -366,6 +366,7 @@ auth.onAuthStateChanged(async (user) => {
   }
 
   const signIn = "/sign-in-today";
+  const signUp = "/join-today";
 
   console.log(
     "isSignInPage: ",
@@ -374,8 +375,8 @@ auth.onAuthStateChanged(async (user) => {
   );
 
   if (
-    (window.location.href.indexOf("sign-in") > -1 ||
-      window.location.href.indexOf("sign-up") > -1) &&
+    (window.location.href.indexOf(signIn) > -1 ||
+      window.location.href.indexOf(signUp) > -1) &&
     user
   ) {
     handleRedirect(user);
