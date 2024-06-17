@@ -368,7 +368,6 @@ auth.onAuthStateChanged(async (user) => {
   ) {
     window.fetchData(user);
   }
-
   const signIn = "/sign-in-today";
   const signUp = "/join-today";
 
