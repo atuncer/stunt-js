@@ -358,9 +358,9 @@ auth.onAuthStateChanged(async (user) => {
       //fillRecents();
     }
     if (window.location.href.includes("pricing")) {
-      if (window.user != null) {
-        document.querySelector("#navbar-landing").style.display = "none";
-      }
+      document.querySelector("signin-button-navbar").style.display = "none";
+      document.querySelector("signup-button-navbar").style.display = "none";
+      document.querySelector("dashboard-button-navbar").style.display = "flex";
     }
   }
 
