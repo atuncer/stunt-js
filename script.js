@@ -9,7 +9,7 @@ if (
 }
 
 const API_URL = "https://app.stuntai.co";
-const signUpUrl = "/sign-up-copy";
+const signUpUrl = "/join-today";
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
   authDomain: "stuntai-74414.firebaseapp.com",
@@ -90,6 +90,8 @@ function handleSignUp(e) {
         window.showToast("Email is already in use");
       } else if (errorCode === "auth/weak-password") {
         window.showToast("Your password must be at least 6 characters");
+      } else if (errorCode === "auth/invalid-email") {
+        window.showToast("The email address is badly formatted.");
       } else {
         // Handle other errors if needed
         window.showToast("Error");
@@ -368,6 +370,7 @@ auth.onAuthStateChanged(async (user) => {
   }
 
   const signIn = "/sign-in-today";
+  const signUp = "/join-today";
 
   console.log(
     "isSignInPage: ",
@@ -376,8 +379,8 @@ auth.onAuthStateChanged(async (user) => {
   );
 
   if (
-    (window.location.href.indexOf("sign-in") > -1 ||
-      window.location.href.indexOf("sign-up") > -1) &&
+    (window.location.href.indexOf(signIn) > -1 ||
+      window.location.href.indexOf(signUp) > -1) &&
     user
   ) {
     handleRedirect(user);
