@@ -8,6 +8,15 @@ if (
   elementToRemove.remove();
 }
 
+if (sessionStorage.getItem("loading") === "true") {
+  const button = document.querySelector("#google");
+  button.disabled = true;
+  button.innerText = "Loading...";
+  button.style.backgroundColor = "#d3d3d3";
+  button.style.cursor = "not-allowed";
+  sessionStorage.removeItem("loading");
+}
+
 const API_URL = "https://app.stuntai.co";
 const signUpUrl = "/join-today";
 const firebaseConfig = {
@@ -322,6 +331,7 @@ auth.onAuthStateChanged(async (user) => {
   window.user = user;
 
   if (user) {
+    sessionStorage.setItem("loading", "false");
     updateUserElement("#userName", user.displayName);
     updateUserElement("#userNameEdit", user.displayName);
     updateUserElement("#userMail", user.email);
@@ -875,6 +885,8 @@ parentElement.addEventListener("click", function (event) {
     button.innerText = "Loading...";
     button.style.backgroundColor = "#d3d3d3";
     button.style.cursor = "not-allowed";
+    // add loading to sessionstorage
+    sessionStorage.setItem("loading", "true");
 
 
     var provider = new firebase.auth.GoogleAuthProvider();
