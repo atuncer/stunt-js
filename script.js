@@ -53,6 +53,12 @@ function handleSignUp(e) {
   const user_name = document.getElementById("sign-up-name").value;
   const checkBox = document.querySelector("#checkbox");
   let errorOccurred = false;
+  const button = document.querySelector("#google");
+
+  button.disabled = true;
+  button.innerText = "Loading...";
+  button.style.backgroundColor = "#d3d3d3";
+  button.style.cursor = "not-allowed";
 
   if (!checkBox.checked) {
     window.showToast("Please accept the Privacy Policy and Terms of Service.");
@@ -147,6 +153,13 @@ function handleSignIn(e) {
 
   const email = document.getElementById("signin-email").value;
   const password = document.getElementById("signin-password").value;
+
+  const button = document.querySelector("#google");
+
+  button.disabled = true;
+  button.innerText = "Loading...";
+  button.style.backgroundColor = "#d3d3d3";
+  button.style.cursor = "not-allowed";
 
   auth
     .signInWithEmailAndPassword(email, password)
