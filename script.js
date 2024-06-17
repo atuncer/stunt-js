@@ -868,6 +868,14 @@ parentElement.addEventListener("click", function (event) {
   const matchedElement5 = hasMatchingIdOrParent("google", event.target);
 
   if (matchedElement5) {
+
+    const button = document.querySelector("#google");
+
+    button.disabled = true;
+    button.innerText = "Loading...";
+    button.style.backgroundColor = "#d3d3d3";
+    button.style.cursor = "not-allowed";
+
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider);
     firebase
