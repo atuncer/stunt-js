@@ -876,6 +876,7 @@ parentElement.addEventListener("click", function (event) {
     button.style.backgroundColor = "#d3d3d3";
     button.style.cursor = "not-allowed";
 
+
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider);
     firebase
