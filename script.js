@@ -288,7 +288,7 @@ async function handleStripeHref() {
     const id_token = await window.user.getIdToken();
 
     fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
-      if (response.status === 400) {
+      if (response.status === 431) {
         buttonIds.forEach((id, index) => {
           document.querySelector(`#${id}_y_button`).href =
             trial_yearly_urls[index];
@@ -344,6 +344,10 @@ auth.onAuthStateChanged(async (user) => {
       if (is_blurred.status === 207) {
         document.querySelector("#blur").style.display = "block";
       }
+      else if (is_blurred.status === 431) {
+        document.querySelector("#signup-popup").style.display = "flex";
+      }
+
     }
     if (
       (window.location.href.includes("my-dashboard") ||
