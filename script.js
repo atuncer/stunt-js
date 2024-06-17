@@ -345,11 +345,9 @@ auth.onAuthStateChanged(async (user) => {
       );
       if (is_blurred.status === 207) {
         document.querySelector("#blur").style.display = "block";
-      }
-      else if (is_blurred.status === 431) {
+      } else if (is_blurred.status === 431) {
         document.querySelector("#signup-popup").style.display = "flex";
       }
-
     }
     if (
       (window.location.href.includes("my-dashboard") ||
@@ -358,6 +356,11 @@ auth.onAuthStateChanged(async (user) => {
     ) {
       fetchDataAndCreateChart();
       //fillRecents();
+    }
+    if (window.location.href.includes("pricing")) {
+      if (window.user != null) {
+        document.querySelector("#navbar-landing").style.display = "none";
+      }
     }
   }
 
