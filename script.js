@@ -141,7 +141,7 @@ async function handleRedirect(user) {
     return;
   }
   const id_token = await user.getIdToken();
-  fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
+  fetch(`${API_URL}/api/v1/is_user_enrolled?user_token=${id_token}`).then((response) => {
     if ([200, 207].includes(response.status)) {
       window.location.href = "portal/my-dashboard";
       return;
@@ -298,7 +298,7 @@ async function handleStripeHref() {
 
     const id_token = await window.user.getIdToken();
 
-    fetch(`${API_URL}/api/v1/is_user_enrolled/${id_token}`).then((response) => {
+    fetch(`${API_URL}/api/v1/is_user_enrolled?user_token=${id_token}`).then((response) => {
       if (response.status === 431) {
         buttonIds.forEach((id, index) => {
           document.querySelector(`#${id}_y_button`).href =
@@ -351,7 +351,7 @@ auth.onAuthStateChanged(async (user) => {
 
       // Fetch data from the API
       const is_blurred = await fetch(
-        `${API_URL}/api/v1/is_user_enrolled/${user_token}`
+        `${API_URL}/api/v1/is_user_enrolled?user_token=${user_token}`
       );
       if (is_blurred.status === 207) {
         document.querySelector("#blur").style.display = "block";
@@ -1132,13 +1132,13 @@ async function fetchDataAndCreateChart() {
 
   // Fetch data from the API
   const is_blurred = await fetch(
-    `${API_URL}/api/v1/is_user_enrolled/${user_token}`
+    `${API_URL}/api/v1/is_user_enrolled?user_token=${user_token}`
   );
   if (is_blurred.status === 207) {
     return;
   }
 
-  const response = await fetch(`${API_URL}/api/v1/usage/daily/${user_token}`);
+  const response = await fetch(`${API_URL}/api/v1/usage/daily?user_token=${user_token}`);
   let apiData = await response.json();
   const monthly_allowed = apiData["metadata"]["monthly_allowance"];
   apiData = apiData["data"];
@@ -1218,7 +1218,7 @@ function convertDate(dateString) {
 
 async function fillRecents() {
   const x = await myGlobalUser.getIdToken();
-  const response = await fetch(`${API_URL}/api/v1/favourites/${x}`);
+  const response = await fetch(`${API_URL}/api/v1/favourites?user_token=${x}`);
 
   const apiData = await response.json();
 
@@ -1249,7 +1249,7 @@ async function myPlans(user) {
 
   const user_token = await user.getIdToken();
 
-  fetch(`${API_URL}/api/v1/get_user_subscription/${user_token}`).then(
+  fetch(`${API_URL}/api/v1/get_user_subscription?user_token=${user_token}`).then(
     (response) => {
       if (response.status === 200) {
         response.json().then((data) => {
