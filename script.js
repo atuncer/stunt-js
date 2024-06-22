@@ -440,8 +440,8 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
   const myToneofSpeaking = document.getElementById("tone_of_speaking")
     ? document.getElementById("tone_of_speaking").value
     : null;
-  const myCampaignTarget = document.getElementById("campaing_target")
-    ? document.getElementById("campaing_target").value
+  const myCampaignTarget = document.getElementById("campaign_target")
+    ? document.getElementById("campaign_target").value
     : null;
   const my_recipient_name = document.getElementById("recipient_name")
     ? document.getElementById("recipient_name").value
@@ -584,7 +584,7 @@ async function sendMessage(rewritePrompt = "", myUuid = "", isNew = true) {
       highlights: myHighlights,
       tone_of_speaking: myToneofSpeaking,
       language: myOutputLanguage,
-      campaing_target: myCampaignTarget,
+      campaign_target: myCampaignTarget,
       templateName: templateName,
       recipient_name: my_recipient_name,
       company_name: my_company_name,
