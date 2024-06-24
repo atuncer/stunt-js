@@ -17,7 +17,7 @@ if (sessionStorage.getItem("loading") === "true") {
   sessionStorage.removeItem("loading");
 }
 
-const API_URL = "https://app.stuntai.co";
+const API_URL = "https://api.stuntai.co";
 const signUpUrl = "/join-today";
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
