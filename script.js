@@ -890,7 +890,7 @@ parentElement.addEventListener("click", function (event) {
 
 
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithRedirect(provider);
+    firebase.auth().signInWithPopup(provider);
     firebase
       .auth()
       .getRedirectResult()
