@@ -9,12 +9,18 @@ if (
 }
 
 if (sessionStorage.getItem("loading") === "true") {
-  const button = document.querySelector("#google");
-  button.disabled = true;
-  button.innerText = "Loading...";
-  button.style.backgroundColor = "#d3d3d3";
-  button.style.cursor = "not-allowed";
-  sessionStorage.removeItem("loading");
+  try {
+    const button = document.querySelector("#google");
+    button.disabled = true;
+    button.innerText = "Loading...";
+    button.style.backgroundColor = "#d3d3d3";
+    button.style.cursor = "not-allowed";
+    sessionStorage.removeItem("loading");
+  } catch (e) {
+    console.error(e);
+    sessionStorage.removeItem("loading");
+  }
+
 }
 
 const API_URL = "https://api.stuntai.co";
