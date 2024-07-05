@@ -20,7 +20,6 @@ if (sessionStorage.getItem("loading") === "true") {
     console.error(e);
     sessionStorage.removeItem("loading");
   }
-
 }
 
 const API_URL = "https://api.stuntai.co";
@@ -147,13 +146,15 @@ async function handleRedirect(user) {
     return;
   }
   const id_token = await user.getIdToken();
-  fetch(`${API_URL}/api/v1/is_user_enrolled?user_token=${id_token}`).then((response) => {
-    if ([200, 207].includes(response.status)) {
-      window.location.href = "portal/my-dashboard";
-      return;
+  fetch(`${API_URL}/api/v1/is_user_enrolled?user_token=${id_token}`).then(
+    (response) => {
+      if ([200, 207].includes(response.status)) {
+        window.location.href = "portal/my-dashboard";
+        return;
+      }
+      window.location.href = "pricing";
     }
-    window.location.href = "pricing";
-  });
+  );
 }
 
 function handleSignIn(e) {
@@ -304,27 +305,32 @@ async function handleStripeHref() {
 
     const id_token = await window.user.getIdToken();
 
-    fetch(`${API_URL}/api/v1/is_user_enrolled?user_token=${id_token}`).then((response) => {
-      if (response.status === 431) {
-        buttonIds.forEach((id, index) => {
-          document.querySelector(`#${id}_y_button`).href =
-            trial_yearly_urls[index];
-          document.querySelector(`#${id}_y_button`).innerText =
-            "Start free trial";
-          document.querySelector(`#${id}_m_button`).href =
-            trial_monthly_urls[index];
-          document.querySelector(`#${id}_m_button`).innerText =
-            "Start free trial";
-        });
-      } else {
-        buttonIds.forEach((id, index) => {
-          document.querySelector(`#${id}_y_button`).href = yearly_urls[index];
-          document.querySelector(`#${id}_y_button`).innerText = "Subscribe now";
-          document.querySelector(`#${id}_m_button`).href = monthly_urls[index];
-          document.querySelector(`#${id}_m_button`).innerText = "Subscribe now";
-        });
+    fetch(`${API_URL}/api/v1/is_user_enrolled?user_token=${id_token}`).then(
+      (response) => {
+        if (response.status === 431) {
+          buttonIds.forEach((id, index) => {
+            document.querySelector(`#${id}_y_button`).href =
+              trial_yearly_urls[index];
+            document.querySelector(`#${id}_y_button`).innerText =
+              "Start free trial";
+            document.querySelector(`#${id}_m_button`).href =
+              trial_monthly_urls[index];
+            document.querySelector(`#${id}_m_button`).innerText =
+              "Start free trial";
+          });
+        } else {
+          buttonIds.forEach((id, index) => {
+            document.querySelector(`#${id}_y_button`).href = yearly_urls[index];
+            document.querySelector(`#${id}_y_button`).innerText =
+              "Subscribe now";
+            document.querySelector(`#${id}_m_button`).href =
+              monthly_urls[index];
+            document.querySelector(`#${id}_m_button`).innerText =
+              "Subscribe now";
+          });
+        }
       }
-    });
+    );
   } else if (window.location.href.includes("manage-your-account")) {
     document.querySelector(
       "#change_plan"
@@ -388,7 +394,7 @@ auth.onAuthStateChanged(async (user) => {
     window.fetchData(user);
   }
   const signIn = "/sign-in-today";
-  const signUp = "/join-today";
+  const signUp = "/https://app.stuntai.co/sign-up";
 
   console.log(
     "isSignInPage: ",
@@ -884,7 +890,6 @@ parentElement.addEventListener("click", function (event) {
   const matchedElement5 = hasMatchingIdOrParent("google", event.target);
 
   if (matchedElement5) {
-
     const button = document.querySelector("#google");
 
     button.disabled = true;
@@ -893,7 +898,6 @@ parentElement.addEventListener("click", function (event) {
     button.style.cursor = "not-allowed";
     // add loading to sessionstorage
     sessionStorage.setItem("loading", "true");
-
 
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider);
@@ -1144,7 +1148,9 @@ async function fetchDataAndCreateChart() {
     return;
   }
 
-  const response = await fetch(`${API_URL}/api/v1/usage/daily?user_token=${user_token}`);
+  const response = await fetch(
+    `${API_URL}/api/v1/usage/daily?user_token=${user_token}`
+  );
   let apiData = await response.json();
   const monthly_allowed = apiData["metadata"]["monthly_allowance"];
   apiData = apiData["data"];
@@ -1255,31 +1261,31 @@ async function myPlans(user) {
 
   const user_token = await user.getIdToken();
 
-  fetch(`${API_URL}/api/v1/get_user_subscription?user_token=${user_token}`).then(
-    (response) => {
-      if (response.status === 200) {
-        response.json().then((data) => {
-          const product = idToProductMap[data.plan];
-          if (product) {
-            document
-              .querySelector("#your_plan_account")
-              .appendChild(document.querySelector(`#${product}`));
-            document.querySelector(`#${product}`).style.display = "block";
+  fetch(
+    `${API_URL}/api/v1/get_user_subscription?user_token=${user_token}`
+  ).then((response) => {
+    if (response.status === 200) {
+      response.json().then((data) => {
+        const product = idToProductMap[data.plan];
+        if (product) {
+          document
+            .querySelector("#your_plan_account")
+            .appendChild(document.querySelector(`#${product}`));
+          document.querySelector(`#${product}`).style.display = "block";
 
-            document.querySelector("#billing_info_plan_name").innerText =
-              document.querySelector(`#${product} > h5`).innerText;
-            document.querySelector("#billing_info_plan_details").innerText =
-              data.end_date;
+          document.querySelector("#billing_info_plan_name").innerText =
+            document.querySelector(`#${product} > h5`).innerText;
+          document.querySelector("#billing_info_plan_details").innerText =
+            data.end_date;
 
-            document
-              .querySelector("#best_option_for_you")
-              .appendChild(document.querySelector("#elite_yearly"));
-            document.querySelector("#elite_yearly").style.display = "block";
-          }
-        });
-      }
+          document
+            .querySelector("#best_option_for_you")
+            .appendChild(document.querySelector("#elite_yearly"));
+          document.querySelector("#elite_yearly").style.display = "block";
+        }
+      });
     }
-  );
+  });
 }
 
 if (window.location.href.includes("email-sent")) {
