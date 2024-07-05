@@ -23,7 +23,7 @@ if (sessionStorage.getItem("loading") === "true") {
 }
 
 const API_URL = "https://api.stuntai.co";
-const signUpUrl = "/join-today";
+const signUpUrl = "https://app.stuntai.co/sign-up";
 const firebaseConfig = {
   apiKey: "AIzaSyBqppbxocgeGDJ5FW6-DmRr0sYVlJvT9c0",
   authDomain: "stuntai-74414.firebaseapp.com",
@@ -393,8 +393,8 @@ auth.onAuthStateChanged(async (user) => {
   ) {
     window.fetchData(user);
   }
-  const signIn = "/sign-in-today";
-  const signUp = "/https://app.stuntai.co/sign-up";
+  const signIn = "https://app.stuntai.co/login";
+  const signUp = "https://app.stuntai.co/sign-up";
 
   console.log(
     "isSignInPage: ",
