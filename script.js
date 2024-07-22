@@ -241,11 +241,6 @@ auth.onAuthStateChanged(async (user) => {
       fetchDataAndCreateChart();
       //fillRecents();
     }
-    if (window.location.href.includes("pricing")) {
-      document.querySelector("#signin-button-navbar").style.display = "none";
-      document.querySelector("#signup-button-navbar").style.display = "none";
-      document.querySelector("#dashboard-button-navbar").style.display = "flex";
-    }
   }
 
   if (
